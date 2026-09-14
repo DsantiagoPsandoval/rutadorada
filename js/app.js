@@ -137,26 +137,51 @@ function inicializarMenuMovil() {
   const btnCerrar = document.getElementById("btn-cerrar-menu");
   const menuPanel = document.getElementById("menu-movil");
 
-  if (btnAbrir && menuPanel) {
-    btnAbrir.addEventListener("click", () => {
-      menuPanel.classList.add("abierto");
-      document.body.style.overflow = "hidden";
-    });
-  }
-
-  if (btnCerrar && menuPanel) {
-    btnCerrar.addEventListener("click", () => {
+  function cerrarMenuMovil() {
+    if (menuPanel) {
       menuPanel.classList.remove("abierto");
       document.body.style.overflow = "";
+      if (btnAbrir) btnAbrir.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function abrirMenuMovil() {
+    if (menuPanel) {
+      menuPanel.classList.add("abierto");
+      document.body.style.overflow = "hidden";
+      if (btnAbrir) btnAbrir.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  if (btnAbrir) {
+    btnAbrir.addEventListener("click", abrirMenuMovil);
+  }
+
+  if (btnCerrar) {
+    btnCerrar.addEventListener("click", cerrarMenuMovil);
+  }
+
+  // Cerrar al hacer clic en el fondo oscuro
+  if (menuPanel) {
+    menuPanel.addEventListener("click", (e) => {
+      if (e.target === menuPanel) {
+        cerrarMenuMovil();
+      }
     });
   }
 
-  // Cerrar al hacer clic en enlaces
+  // Cerrar al presionar la tecla Escape
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && menuPanel && menuPanel.classList.contains("abierto")) {
+      cerrarMenuMovil();
+    }
+  });
+
+  // Cerrar al hacer clic en cualquiera de los enlaces de navegación
   const enlaces = menuPanel ? menuPanel.querySelectorAll("a") : [];
   enlaces.forEach(a => {
     a.addEventListener("click", () => {
-      menuPanel.classList.remove("abierto");
-      document.body.style.overflow = "";
+      cerrarMenuMovil();
     });
   });
 }
@@ -444,6 +469,34 @@ function abrirModalActividad(act) {
 
   overlay.classList.add("activo");
   document.body.style.overflow = "hidden";
+  
+  // Reiniciar estado del botón de voz al abrir cualquier actividad
+  actualizarBotonVoz("detenido");
+}
+
+let estadoLecturaVoz = "detenido"; // "detenido", "reproduciendo"
+
+function actualizarBotonVoz(estado) {
+  estadoLecturaVoz = estado;
+  const btnVoz = document.getElementById("btn-modal-voz");
+  if (!btnVoz) return;
+
+  if (estado === "reproduciendo") {
+    btnVoz.classList.add("reproduciendo");
+    btnVoz.innerHTML = `<span>⏹️</span> Detener lectura (Escuchando...)`;
+    btnVoz.setAttribute("aria-label", "Detener lectura en voz alta");
+  } else {
+    btnVoz.classList.remove("reproduciendo");
+    btnVoz.innerHTML = `<span>🔊</span> Escuchar detalles en voz alta (Audio)`;
+    btnVoz.setAttribute("aria-label", "Escuchar detalles en voz alta");
+  }
+}
+
+function detenerLecturaVoz() {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+  actualizarBotonVoz("detenido");
 }
 
 function cerrarModal() {
@@ -452,41 +505,93 @@ function cerrarModal() {
     overlay.classList.remove("activo");
     document.body.style.overflow = "";
   }
-  // Detener síntesis de voz si está activa
-  if (window.speechSynthesis && window.speechSynthesis.speaking) {
-    window.speechSynthesis.cancel();
-  }
+  // Detener inmediatamente la síntesis de voz al cerrar el modal
+  detenerLecturaVoz();
 }
 
 /**
  * Asistente de Voz Accesible (TTS - Web Speech API)
  * Lee en voz alta la actividad para personas mayores con dificultad de visión.
+ * Soporta iniciar, detener y alternar estado visual interactivo.
  */
 function hablarDetalleActividad() {
   if (!("speechSynthesis" in window)) {
-    alert("Tu navegador no soporta síntesis de voz.");
+    alert("Tu navegador o dispositivo no tiene habilitada la función de síntesis de voz.");
+    return;
+  }
+
+  // Si ya se está reproduciendo, este clic detiene la lectura inmediatamente
+  if (window.speechSynthesis.speaking || estadoLecturaVoz === "reproduciendo") {
+    detenerLecturaVoz();
     return;
   }
 
   if (!actividadActualEnModal) return;
 
-  const act = actividadActualEnModal;
-  const textoParaHablar = `Actividad: ${act.titulo}. Fecha: ${act.fechaTexto}. Horario: ${act.horarioTexto}. Lugar: ${act.lugar}, ${act.direccion}. Descripción: ${act.descripcion}. Recomendaciones: ${(act.recomendaciones || []).join(". ")}.`;
+  // Cancelar cualquier locución anterior pendiente
+  window.speechSynthesis.cancel();
 
-  if (window.speechSynthesis.speaking) {
-    window.speechSynthesis.cancel();
-    return;
-  }
+  const act = actividadActualEnModal;
+  const textoRecomendaciones = (act.recomendaciones && act.recomendaciones.length > 0)
+    ? `Recomendaciones importantes: ${act.recomendaciones.join(". ")}.`
+    : "";
+
+  const textoParaHablar = `Actividad: ${act.titulo}. ` +
+    `Fecha: ${act.fechaTexto}. ` +
+    `Horario: ${act.horarioTexto}. ` +
+    `Lugar: ${act.lugar}, en ${act.direccion}. ` +
+    `Descripción: ${act.descripcion}. ` +
+    textoRecomendaciones;
 
   const locucion = new SpeechSynthesisUtterance(textoParaHablar);
-  locucion.lang = "es-ES"; // o es-419
-  locucion.rate = 0.9; // Hablar un poco más pausado para mayor claridad en adultos mayores
+
+  // Buscar voces en español (priorizando español de Colombia es-CO)
+  const voces = window.speechSynthesis.getVoices ? window.speechSynthesis.getVoices() : [];
+  const vozEspanol = voces.find(v => v.lang === "es-CO") ||
+                     voces.find(v => v.lang && (v.lang.startsWith("es-419") || v.lang.startsWith("es-"))) ||
+                     voces.find(v => v.lang && v.lang.includes("es"));
+
+  if (vozEspanol) {
+    locucion.voice = vozEspanol;
+    locucion.lang = vozEspanol.lang;
+  } else {
+    locucion.lang = "es-CO";
+  }
+
+  locucion.rate = 0.9; // Velocidad pausada y cómoda para adultos mayores
   locucion.pitch = 1.0;
 
+  locucion.onstart = () => {
+    actualizarBotonVoz("reproduciendo");
+  };
+
+  locucion.onend = () => {
+    actualizarBotonVoz("detenido");
+  };
+
+  locucion.onerror = (e) => {
+    // Si fue cancelado manualmente, no emitir alerta
+    if (e.error !== "canceled" && e.error !== "interrupted") {
+      console.warn("Error en locución TTS:", e);
+    }
+    actualizarBotonVoz("detenido");
+  };
+
+  actualizarBotonVoz("reproduciendo");
   window.speechSynthesis.speak(locucion);
+}
+
+// Cargar voces al inicio para asegurar disponibilidad inmediata
+if (typeof window !== "undefined" && window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
+  window.speechSynthesis.onvoiceschanged = () => {
+    if (window.speechSynthesis.getVoices) window.speechSynthesis.getVoices();
+  };
 }
 
 // Exponer métodos globales
 window.abrirModalActividadPorId = abrirModalActividadPorId;
 window.abrirModalActividad = abrirModalActividad;
 window.cerrarModal = cerrarModal;
+window.detenerLecturaVoz = detenerLecturaVoz;
+window.hablarDetalleActividad = hablarDetalleActividad;
+window.actualizarBotonVoz = actualizarBotonVoz;

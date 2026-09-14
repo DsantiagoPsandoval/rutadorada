@@ -1584,6 +1584,26 @@ header.encabezado-principal {
 .btn-modal-accion.voz {
   background: var(--color-azul-suave);
   color: #ffffff;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.btn-modal-accion.voz.reproduciendo {
+  background: #c82333 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(200, 35, 51, 0.35);
+  animation: pulso-voz 1.6s infinite;
+}
+
+.btn-modal-accion.voz.pausado {
+  background: var(--color-dorado-principal) !important;
+  color: #ffffff !important;
+}
+
+@keyframes pulso-voz {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); box-shadow: 0 0 15px rgba(200, 35, 51, 0.6); }
+  100% { transform: scale(1); }
 }
 
 .btn-modal-accion.oficial {
@@ -1595,6 +1615,14 @@ header.encabezado-principal {
 .btn-modal-accion:hover {
   opacity: 0.92;
   transform: translateY(-2px);
+}
+
+.btn-menu-movil-destacado {
+  background: var(--color-dorado-principal) !important;
+  color: #ffffff !important;
+  border-color: var(--color-dorado-oscuro) !important;
+  box-shadow: 0 4px 12px rgba(168, 111, 11, 0.25);
+  font-weight: 800 !important;
 }
 
 /* ==========================================================================
@@ -1664,103 +1692,88 @@ footer.pie-pagina {
 }
 
 /* ==========================================================================
-   MEDIA QUERIES — RESPONSIVE DESIGN (MÓVIL PRIMERO)
+   MEDIA QUERIES — RESPONSIVE DESIGN COMPLETO (320px a 1366px+)
    ========================================================================== */
+
+/* TABLETS Y PANTALLAS MEDIANAS (hasta 1024px) */
 @media (max-width: 1024px) {
   .menu-escritorio {
-    display: none;
+    display: none !important;
   }
 
   .btn-menu-movil {
-    display: inline-flex;
+    display: inline-flex !important;
+  }
+
+  .grid-esta-semana {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
   .calendario-layout {
     grid-template-columns: 1fr;
+    gap: 25px;
   }
 
   .layout-conocenos,
   .layout-ubicacion {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
 
   .grid-footer {
     grid-template-columns: 1fr 1fr;
+    gap: 30px;
   }
 }
 
+/* TABLETS VERTICALES Y SMARTPHONES GRANDES (hasta 768px) */
 @media (max-width: 768px) {
-  .hero-titulo {
-    font-size: clamp(1.5rem, 6vw, 2.1rem);
+  body {
+    padding-top: 70px;
   }
 
-  .hero-slogan {
-    font-size: 1.25rem;
+  section[id] {
+    scroll-margin-top: 78px;
   }
 
-  .seccion-titulo {
-    font-size: 1.85rem;
+  .nav-contenedor {
+    padding: 10px 0;
   }
 
-  .grid-footer {
-    grid-template-columns: 1fr;
+  .logo-subtitulo {
+    display: none !important;
   }
 
-  .whatsapp-flotante span.texto-wa {
-    display: none;
+  .logo-titulo {
+    font-size: clamp(1.05rem, 4vw, 1.25rem);
   }
 
-  .whatsapp-flotante {
-    padding: 14px;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    --base-font-size: 16px;
+  .logo-icono {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
   }
 
-  .contenedor {
-    width: 94%;
-  }
-
-  .barra-accesibilidad .contenedor {
-    flex-direction: column;
-    text-align: center;
-    gap: 6px;
-  }
-
-  .accesibilidad-botones {
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .btn-acc {
-    padding: 5px 8px;
-    font-size: 0.82rem;
+  .btn-menu-movil {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    min-height: 44px;
   }
 
   .hero-seccion {
-    padding: 35px 0 45px;
+    padding: 30px 0 40px;
     min-height: auto;
   }
 
-  .hero-etiqueta-bienvenida {
-    font-size: 0.8rem;
-    padding: 4px 10px;
-    white-space: normal;
-    text-align: center;
-  }
-
   .hero-titulo {
-    font-size: clamp(1.35rem, 5.8vw, 1.7rem);
+    font-size: clamp(1.45rem, 5.8vw, 2.1rem);
+    line-height: 1.25;
     word-break: normal;
     overflow-wrap: break-word;
-    line-height: 1.25;
+  }
+
+  .hero-titulo br {
+    display: none;
   }
 
   .hero-slogan {
@@ -1773,32 +1786,258 @@ footer.pie-pagina {
     line-height: 1.5;
   }
 
+  .hero-acciones {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+
   .btn-cta-primario,
   .btn-cta-secundario {
     width: 100%;
     justify-content: center;
+    min-height: 48px;
+  }
+
+  .seccion-titulo {
+    font-size: clamp(1.5rem, 5vw, 1.9rem);
+  }
+
+  .grid-esta-semana {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .grid-por-que {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .grid-actividades {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .actividad-header {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .grid-contacto {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .grid-footer {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .whatsapp-flotante span.texto-wa {
+    display: none;
+  }
+
+  .whatsapp-flotante {
+    padding: 12px;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    bottom: 20px;
+    right: 20px;
+    justify-content: center;
+  }
+}
+
+/* SMARTPHONES ESTÁNDAR (hasta 480px) */
+@media (max-width: 480px) {
+  :root {
+    --base-font-size: 16px;
+  }
+
+  .contenedor {
+    width: 94%;
+  }
+
+  .seccion-encabezado {
+    margin-bottom: 25px;
+  }
+
+  .seccion-subtitulo-etiqueta {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  .seccion-titulo {
+    font-size: clamp(1.35rem, 5.2vw, 1.65rem);
+  }
+
+  .seccion-descripcion {
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .filtros-contenedor {
+    gap: 8px;
+    margin-bottom: 25px;
+  }
+
+  .btn-filtro {
+    padding: 8px 14px;
+    font-size: 0.92rem;
+    min-height: 44px;
+  }
+
+  .buscador-wrapper {
+    margin-bottom: 25px;
+  }
+
+  .tarjeta-actividad {
+    padding: 18px 16px;
+  }
+
+  .tarjeta-semana {
+    padding: 18px 16px;
+  }
+
+  .tarjeta-beneficio {
+    padding: 20px 16px;
+  }
+
+  .tarjeta-contacto {
+    padding: 22px 16px;
   }
 
   .calendario-layout {
-    padding: 12px;
+    padding: 16px 12px;
+    gap: 20px;
+  }
+
+  .calendario-mes-titulo {
+    font-size: 1.35rem;
+  }
+
+  .btn-cal-nav {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    min-height: 42px;
+  }
+
+  .calendario-dias-semana {
+    font-size: 0.88rem;
+    gap: 4px;
+  }
+
+  .calendario-grilla-dias {
+    gap: 4px;
   }
 
   .dia-celda {
-    min-height: 40px;
-    font-size: 0.95rem;
+    min-height: 38px;
+    font-size: 0.9rem;
+    border-width: 1px;
+  }
+
+  .ubicacion-card-info {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .mapa-iframe-wrapper {
+    height: 280px;
   }
 
   .modal-tarjeta {
-    max-height: 95vh;
-    border-radius: 14px;
+    max-height: 94vh;
+    width: 96%;
   }
 
   .modal-header {
-    padding: 16px 18px;
+    padding: 14px 16px;
+  }
+
+  .modal-titulo {
+    font-size: 1.25rem;
   }
 
   .modal-cuerpo {
-    padding: 16px;
-    gap: 16px;
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .modal-caja-datos {
+    padding: 12px;
+    font-size: 0.95rem;
+    gap: 8px;
+  }
+
+  .btn-modal-accion {
+    padding: 12px 16px;
+    font-size: 0.98rem;
+    min-height: 48px;
   }
 }
+
+/* SMARTPHONES MUY PEQUEÑOS (320px – 360px) */
+@media (max-width: 360px) {
+  .contenedor {
+    width: 96%;
+  }
+
+  body {
+    padding-top: 66px;
+  }
+
+  section[id] {
+    scroll-margin-top: 74px;
+  }
+
+  .logo-icono {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    font-size: 1rem;
+  }
+
+  .logo-titulo {
+    font-size: 1rem;
+  }
+
+  .btn-menu-movil {
+    padding: 6px 10px;
+    font-size: 0.88rem;
+    min-height: 38px;
+  }
+
+  .hero-titulo {
+    font-size: 1.3rem;
+  }
+
+  .calendario-layout {
+    padding: 12px 8px;
+  }
+
+  .calendario-mes-titulo {
+    font-size: 1.15rem;
+  }
+
+  .calendario-dias-semana {
+    font-size: 0.75rem;
+    gap: 2px;
+  }
+
+  .calendario-grilla-dias {
+    gap: 2px;
+  }
+
+  .dia-celda {
+    min-height: 32px;
+    font-size: 0.82rem;
+    border-radius: 6px;
+  }
+
+  .btn-filtro {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+}
+
