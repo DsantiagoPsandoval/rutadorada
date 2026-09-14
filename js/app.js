@@ -50,10 +50,14 @@ function cargarConfiguracionEnVista() {
   }
 
   // Enlaces de contacto
-  const btnTel = document.getElementById("contacto-btn-tel");
-  if (btnTel && config.contacto) {
-    btnTel.href = config.contacto.telefonoLlamada;
-    btnTel.textContent = `📞 Llamar al ${config.contacto.telefono}`;
+  const btnTel195 = document.getElementById("contacto-btn-tel-195");
+  if (btnTel195 && config.contacto) {
+    btnTel195.href = config.contacto.telefonoLlamada195 || "tel:195";
+  }
+
+  const btnTelFijo = document.getElementById("contacto-btn-tel-fijo");
+  if (btnTelFijo && config.contacto) {
+    btnTelFijo.href = config.contacto.telefonoLlamadaFijo || "tel:+576013387000";
   }
 
   const btnWa = document.getElementById("contacto-btn-wa");
@@ -65,7 +69,11 @@ function cargarConfiguracionEnVista() {
   const btnMail = document.getElementById("contacto-btn-mail");
   if (btnMail && config.contacto) {
     btnMail.href = `mailto:${config.contacto.correo}?subject=Consulta%20Ruta%20Dorada%20Quiroga`;
-    btnMail.textContent = `✉️ Enviar correo`;
+  }
+
+  const btnPortal = document.getElementById("contacto-btn-portal");
+  if (btnPortal && config.contacto) {
+    btnPortal.href = config.contacto.portalWeb || "https://bogota.gov.co";
   }
 
   // Impacto
@@ -82,11 +90,29 @@ function cargarConfiguracionEnVista() {
 }
 
 /**
+ * Obtiene la URL base para las peticiones a la API
+ */
+function obtenerApiBaseUrl() {
+  if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+    return "";
+  }
+  return "http://localhost:8080";
+}
+
+/**
  * Carga actividades personalizadas agregadas por el administrador desde el backend
  */
 async function cargarActividadesServidor() {
+  if (window.location.protocol === "file:") {
+    console.info(
+      "[Ruta Dorada Quiroga] La aplicación se abrió directamente desde el sistema de archivos (file://). " +
+      "Para habilitar sincronización total con el backend, ejecute 'npm start' y acceda a http://localhost:8080."
+    );
+  }
+
   try {
-    const resp = await fetch("/api/actividades");
+    const apiUrl = `${obtenerApiBaseUrl()}/api/actividades`;
+    const resp = await fetch(apiUrl);
     if (resp.ok) {
       const customActs = await resp.json();
       if (Array.isArray(customActs) && customActs.length > 0) {
@@ -99,7 +125,7 @@ async function cargarActividadesServidor() {
       }
     }
   } catch (err) {
-    console.log("Modo sin conexión al backend API:", err);
+    console.info("[Ruta Dorada Quiroga] Catálogo de actividades operando con datos locales de contingencia.");
   }
 }
 

@@ -5,14 +5,20 @@
 
 const AUTH_STORAGE_KEY = "ruta_dorada_token";
 const USER_STORAGE_KEY = "ruta_dorada_usuario";
-
 const Auth = {
+  getApiBaseUrl() {
+    if (window.location.protocol === "http:" || window.location.protocol === "https:") {
+      return "";
+    }
+    return "http://localhost:8080";
+  },
+
   /**
    * Intenta iniciar sesión contra la API del backend
    */
   async login(username, password) {
     try {
-      const resp = await fetch("/api/auth/login", {
+      const resp = await fetch(`${this.getApiBaseUrl()}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
@@ -65,7 +71,7 @@ const Auth = {
     if (!token) return false;
 
     try {
-      const resp = await fetch("/api/auth/verify", {
+      const resp = await fetch(`${this.getApiBaseUrl()}/api/auth/verify`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }

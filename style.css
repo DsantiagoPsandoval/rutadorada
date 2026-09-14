@@ -1377,6 +1377,11 @@ header.encabezado-principal {
   color: #ffffff;
 }
 
+.btn-contacto-accion.portal {
+  background: var(--color-dorado-principal);
+  color: #ffffff;
+}
+
 .btn-contacto-accion:hover {
   opacity: 0.92;
   transform: translateY(-2px);

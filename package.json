@@ -1,0 +1,19 @@
+{
+  "name": "ruta-dorada-quiroga",
+  "version": "1.0.0",
+  "description": "Plataforma comunitaria informativa y de actividades para personas mayores del barrio Quiroga, Rafael Uribe Uribe, Bogotá D.C.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "ruta-dorada",
+    "quiroga",
+    "adultos-mayores",
+    "bogota",
+    "comunidad"
+  ],
+  "author": "Ruta Dorada Quiroga",
+  "license": "ISC"
+}

@@ -375,10 +375,10 @@
 
           <div class="mapa-iframe-wrapper">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0177726588825!2d-74.11654852418587!3d4.582845642602758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99015c6896e3%3A0xc175027cecfd7b42!2sQuiroga%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1726329600000!5m2!1ses!2sco" 
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-74.125%2C4.577%2C-74.108%2C4.588&layer=mapnik&marker=4.5828%2C-74.1165" 
               title="Mapa del Barrio Quiroga, Localidad Rafael Uribe Uribe"
-              loading="lazy" 
-              referrerpolicy="no-referrer-when-downgrade"
+              loading="lazy"
+              style="width: 100%; height: 100%; border: none;"
             ></iframe>
           </div>
         </div>
@@ -397,30 +397,64 @@
         </div>
 
         <div class="grid-contacto">
+          <!-- TARJETA: TELÉFONO FIJO Y CELULAR (LÍNEA 195) -->
           <article class="tarjeta-contacto">
             <div class="icono-contacto-circulo" aria-hidden="true">📞</div>
-            <h3>Llámanos por Teléfono</h3>
-            <p>Atención de lunes a viernes de 8:00 a. m. a 5:00 p. m.</p>
-            <a id="contacto-btn-tel" href="tel:+573105550192" class="btn-contacto-accion telefono">
-              <span>📞</span> Llamar ahora
-            </a>
+            <h3>Teléfono Fijo o Celular</h3>
+            <p>
+              Marca directamente <strong>195</strong> desde cualquier celular o teléfono fijo en Bogotá.
+              <br><small style="color: var(--color-texto-secundario); display: block; margin-top: 6px;">
+                Fuera de Bogotá o conmutador alterno: <strong>(601) 338 7000</strong>
+              </small>
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: auto;">
+              <a id="contacto-btn-tel-195" href="tel:195" class="btn-contacto-accion telefono">
+                <span>📞</span> Llamar a la Línea 195
+              </a>
+              <a id="contacto-btn-tel-fijo" href="tel:+576013387000" class="btn-contacto-accion telefono" style="background: #2e6940;">
+                <span>☎️</span> Llamar al (601) 338 7000
+              </a>
+            </div>
           </article>
 
+          <!-- TARJETA: WHATSAPP OFICIAL -->
           <article class="tarjeta-contacto">
             <div class="icono-contacto-circulo" style="background: #e9fbf0; color: #25d366;" aria-hidden="true">💬</div>
-            <h3>Escríbenos por WhatsApp</h3>
-            <p>Te respondemos cualquier duda sobre horarios y requisitos.</p>
-            <a id="contacto-btn-wa" href="#" target="_blank" rel="noopener" class="btn-contacto-accion whatsapp">
+            <h3>WhatsApp Oficial</h3>
+            <p>
+              Escribe al <strong>+57 316 0231524</strong> para resolver consultas de programas y eventos.
+              <br><small style="color: var(--color-texto-secundario); display: block; margin-top: 6px;">
+                🕒 Lunes a viernes: 7:00 a. m. – 7:00 p. m.<br>Sábados: 8:00 a. m. – 12:00 m.
+              </small>
+            </p>
+            <a id="contacto-btn-wa" href="https://wa.me/573160231524?text=Hola%2C%20quisiera%20consultar%20informaci%C3%B3n%20sobre%20las%20actividades%20y%20servicios%20para%20adultos%20mayores%20de%20Ruta%20Dorada%20Quiroga." target="_blank" rel="noopener" class="btn-contacto-accion whatsapp" style="margin-top: auto;">
               <span>💬</span> Escribir por WhatsApp
             </a>
           </article>
 
+          <!-- TARJETA: CORREO ELECTRÓNICO INSTITUCIONAL -->
           <article class="tarjeta-contacto">
             <div class="icono-contacto-circulo" style="background: #eef4fc; color: #1e3a5f;" aria-hidden="true">✉️</div>
-            <h3>Envíanos un Correo</h3>
-            <p>Escríbenos para orientación o solicitudes comunitarias.</p>
-            <a id="contacto-btn-mail" href="mailto:contacto@rutadoradaquiroga.org" class="btn-contacto-accion correo">
-              <span>✉️</span> Enviar correo
+            <h3>Correo Electrónico</h3>
+            <p>
+              Ventanilla de atención para peticiones ciudadanas, orientación y trámites:
+              <br><strong style="word-break: break-all; font-size: 0.95rem; color: var(--color-verde-principal); display: inline-block; margin-top: 6px;">ventanillaelectronica@alcaldiabogota.gov.co</strong>
+            </p>
+            <a id="contacto-btn-mail" href="mailto:ventanillaelectronica@alcaldiabogota.gov.co?subject=Consulta%20Ruta%20Dorada%20Quiroga" class="btn-contacto-accion correo" style="margin-top: auto;">
+              <span>✉️</span> Enviar correo oficial
+            </a>
+          </article>
+
+          <!-- TARJETA: PORTAL WEB OFICIAL -->
+          <article class="tarjeta-contacto">
+            <div class="icono-contacto-circulo" style="background: #fdf6e7; color: #a86f0b;" aria-hidden="true">🌐</div>
+            <h3>Portal Web Distrital</h3>
+            <p>
+              Consulta más detalles de programas sociales, convocatorias distritales y trámites en:
+              <br><strong style="font-size: 1.15rem; color: var(--color-dorado-oscuro); display: inline-block; margin-top: 6px;">Bogota.gov.co</strong>
+            </p>
+            <a id="contacto-btn-portal" href="https://bogota.gov.co" target="_blank" rel="noopener" class="btn-contacto-accion portal" style="background: var(--color-dorado-principal); color: #ffffff; margin-top: auto;">
+              <span>🌐</span> Ir a Bogota.gov.co
             </a>
           </article>
         </div>
@@ -525,10 +559,12 @@
         </div>
 
         <div class="footer-col-contacto">
-          <h4>Contacto y Sedes</h4>
-          <p style="font-size: 0.95rem; margin-bottom: 8px;">📍 Barrio Quiroga, Bogotá</p>
-          <p style="font-size: 0.95rem; margin-bottom: 8px;">🏢 Salón Comunal (Cl. 31b Sur # 22 - 25)</p>
-          <p style="font-size: 0.95rem; margin-bottom: 8px;">🏡 Centro Día (Cl. 31b Sur # 23 - 14)</p>
+          <h4>Contacto Oficial</h4>
+          <p style="font-size: 0.95rem; margin-bottom: 6px;">📞 Línea Directa: <strong>195</strong></p>
+          <p style="font-size: 0.95rem; margin-bottom: 6px;">☎️ Conmutador: <strong>(601) 338 7000</strong></p>
+          <p style="font-size: 0.95rem; margin-bottom: 6px;">💬 WhatsApp: <strong>+57 316 0231524</strong></p>
+          <p style="font-size: 0.9rem; margin-bottom: 6px; word-break: break-all;">✉️ ventanillaelectronica@alcaldiabogota.gov.co</p>
+          <p style="font-size: 0.95rem; margin-bottom: 6px;">🌐 Portal: <a href="https://bogota.gov.co" target="_blank" rel="noopener" style="color: #ffd978; text-decoration: underline;">Bogota.gov.co</a></p>
           <p style="font-size: 0.95rem; margin-top: 15px;">
             <a href="login.html" style="color: #ffd978; font-weight: 700; text-decoration: underline;">
               ⚙️ Acceso Administrador

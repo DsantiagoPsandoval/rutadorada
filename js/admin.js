@@ -54,10 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function getApiUrl(endpoint) {
+    const base = window.Auth && typeof window.Auth.getApiBaseUrl === "function" ? window.Auth.getApiBaseUrl() : "";
+    return `${base}${endpoint}`;
+  }
+
   // Cargar datos
   async function cargarActividades() {
     try {
-      const resp = await fetch("/api/actividades");
+      const resp = await fetch(getApiUrl("/api/actividades"));
       if (resp.ok) {
         const dataCustom = await resp.json();
         // Combinar oficiales con las personalizadas
@@ -183,14 +188,14 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       if (id) {
         // PUT
-        await fetch(`/api/actividades/${id}`, {
+        await fetch(getApiUrl(`/api/actividades/${id}`), {
           method: "PUT",
           headers,
           body: JSON.stringify(actividadData)
         });
       } else {
         // POST
-        await fetch("/api/actividades", {
+        await fetch(getApiUrl("/api/actividades"), {
           method: "POST",
           headers,
           body: JSON.stringify(actividadData)
@@ -262,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const headers = window.Auth ? window.Auth.getHeaders() : { "Content-Type": "application/json" };
       try {
-        await fetch(`/api/actividades/${idParaEliminar}`, {
+        await fetch(getApiUrl(`/api/actividades/${idParaEliminar}`), {
           method: "DELETE",
           headers
         });

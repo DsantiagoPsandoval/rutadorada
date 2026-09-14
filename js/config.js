@@ -17,14 +17,19 @@ const RUTA_CONFIG = {
     embedMapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0177726588825!2d-74.11654852418587!3d4.582845642602758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99015c6896e3%3A0xc175027cecfd7b42!2sQuiroga%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1726329600000!5m2!1ses!2sco"
   },
 
-  // Canales de Contacto Directo
+  // Canales de Contacto Directo Institucional y Comunitario
   contacto: {
-    telefono: "+57 310 555 0192",
-    telefonoLlamada: "tel:+573105550192",
-    whatsappNumero: "573105550192",
-    whatsappMensaje: "Hola, quisiera obtener información sobre las actividades de Ruta Dorada Quiroga.",
-    correo: "contacto@rutadoradaquiroga.org",
-    horarioAtencion: "Lunes a Viernes: 8:00 a. m. – 5:00 p. m."
+    linea195: "195",
+    telefonoFijo: "(601) 338 7000",
+    telefonoLlamada195: "tel:195",
+    telefonoLlamadaFijo: "tel:+576013387000",
+    whatsappNumero: "573160231524",
+    whatsappFormato: "+57 316 0231524",
+    whatsappMensaje: "Hola, quisiera consultar información sobre las actividades y programas para adultos mayores de Ruta Dorada Quiroga.",
+    whatsappHorario: "Lunes a viernes de 7:00 a.m. a 7:00 p.m. y sábados de 8:00 a.m. a 12:00 m.",
+    correo: "ventanillaelectronica@alcaldiabogota.gov.co",
+    portalWeb: "https://bogota.gov.co",
+    portalWebTexto: "Bogota.gov.co"
   },
 
   // Métricas de Impacto Comunitario (Demostración configurable)
