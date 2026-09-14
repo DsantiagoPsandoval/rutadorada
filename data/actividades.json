@@ -1,0 +1,32 @@
+[
+  {
+    "id": "act-test-huerta-1",
+    "titulo": "Taller Comunitario de Huertoterapia y Plantas Medicinales",
+    "fecha": "2026-09-18",
+    "fechaTexto": "Viernes, 18 de septiembre de 2026",
+    "categoriaPrincipal": "talleres",
+    "categorias": [
+      "talleres",
+      "salud",
+      "adultos-mayores"
+    ],
+    "horaInicio": "10:00",
+    "horaFin": "12:00",
+    "horarioTexto": "10:00 a. m. a 12:00 m.",
+    "lugar": "Parque Zonal Quiroga",
+    "direccion": "Carrera 23 con Calle 33 Sur, Quiroga, Bogotá",
+    "fuenteTipo": "ruta-dorada",
+    "esOficial": false,
+    "fuenteOficial": "Red Comunitaria Ruta Dorada Quiroga",
+    "estado": "activa",
+    "activo": true,
+    "descripcion": "Encuentro de conexión con la naturaleza y saberes ancestrales de siembra urbana y cuidado de huertas caseras.",
+    "recomendaciones": [
+      "Llevar gorra o sombrero para el sol.",
+      "Llevar guantes de jardinería si dispone de ellos.",
+      "Llevar termo de hidratación."
+    ],
+    "fechaCreacion": "2026-09-14T19:33:31.917Z",
+    "creadoPor": "admin@rutadorada.org"
+  }
+]

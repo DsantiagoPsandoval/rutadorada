@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Básico y Metadatos Requeridos -->
+  <title>Ruta Dorada Quiroga | Actividades para Adultos Mayores</title>
+  <meta name="description" content="Consulta las actividades, eventos y programas para adultos mayores de la comunidad de Quiroga, Rafael Uribe Uribe, Bogotá.">
+  <meta name="keywords" content="Ruta Dorada Quiroga, adultos mayores, Rafael Uribe Uribe, Bogotá, Centro Día Palabras Mayores, actividades Quiroga, bienestar vejez">
+  <meta name="author" content="Ruta Dorada Quiroga">
+  
+  <!-- Open Graph / Redes Sociales -->
+  <meta property="og:title" content="Ruta Dorada Quiroga | Conectando experiencias, bienestar y comunidad">
+  <meta property="og:description" content="Espacio comunitario de consulta fácil de actividades y programas para adultos mayores en el barrio Quiroga, Bogotá D.C.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="IMG/fondo-inicio.jpg">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ENCABEZADO / NAVBAR -->
+  <header class="encabezado-principal">
+    <div class="contenedor nav-contenedor">
+      <a href="index.html" class="logo-sitio" aria-label="Ir al inicio de Ruta Dorada Quiroga">
+        <div class="logo-icono" aria-hidden="true">🌟</div>
+        <div class="logo-textos">
+          <span class="logo-titulo">Ruta Dorada Quiroga</span>
+          <span class="logo-subtitulo">Comunidad y Bienestar • Rafael Uribe Uribe</span>
+        </div>
+      </a>
+
+      <!-- Menú de Navegación para Escritorio -->
+      <nav aria-label="Menú principal de navegación">
+        <ul class="menu-escritorio">
+          <li><a href="#inicio" class="activo">Inicio</a></li>
+          <li><a href="#esta-semana">Esta semana</a></li>
+          <li><a href="#actividades">Actividades</a></li>
+          <li><a href="#calendario">Calendario</a></li>
+          <li><a href="#conocenos">Conócenos</a></li>
+          <li><a href="#ubicacion">Ubicación</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="#actividades" class="btn-header-destacado">📅 Ver actividades</a></li>
+        </ul>
+      </nav>
+
+      <!-- Botón Menú Móvil -->
+      <button id="btn-abrir-menu" class="btn-menu-movil" aria-label="Abrir menú de navegación móvil" aria-expanded="false">
+        <span>☰</span> Menú
+      </button>
+    </div>
+  </header>
+
+  <!-- PANEL MENÚ MÓVIL DESPLEGABLE -->
+  <div id="menu-movil" class="menu-movil-desplegable" role="dialog" aria-modal="true" aria-label="Menú móvil">
+    <div class="menu-movil-contenido">
+      <div class="menu-movil-header">
+        <span class="logo-titulo" style="font-size: 1.25rem;">Ruta Dorada</span>
+        <button id="btn-cerrar-menu" class="btn-cerrar-menu" aria-label="Cerrar menú">✕</button>
+      </div>
+      <ul class="menu-movil-lista">
+        <li><a href="#inicio">🏠 Inicio</a></li>
+        <li><a href="#esta-semana">⚡ ¿Qué hay esta semana?</a></li>
+        <li><a href="#actividades">👵 Todas las actividades</a></li>
+        <li><a href="#calendario">📅 Calendario del mes</a></li>
+        <li><a href="#conocenos">👥 Conócenos</a></li>
+        <li><a href="#ubicacion">📍 Dónde estamos en Quiroga</a></li>
+        <li><a href="#contacto">📞 Teléfonos y WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main>
+    <!-- PORTADA / HERO -->
+    <section id="inicio" class="hero-seccion">
+      <div class="contenedor">
+        <div class="hero-contenido">
+          <div class="hero-etiqueta-bienvenida">
+            <span>🏛️ Localidad Rafael Uribe Uribe • Bogotá D.C.</span>
+          </div>
+          <h1 class="hero-titulo">
+            Bienvenidos a <br>
+            <span class="palabra-dorada">Ruta Dorada</span> <span class="palabra-dorada">Quiroga</span>
+          </h1>
+          <p class="hero-slogan">"Conectando experiencias, bienestar y comunidad."</p>
+          <p class="hero-descripcion">
+            Un espacio creado para acercar a los adultos mayores del barrio Quiroga a las actividades programadas y servicios que fortalecen su bienestar, integración y calidad de vida.
+          </p>
+          <div class="hero-acciones">
+            <a href="#actividades" class="btn-cta-primario">
+              <span>📅</span> Explorar actividades
+            </a>
+            <a href="#conocenos" class="btn-cta-secundario">
+              <span>👥</span> Conócenos
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: ¿QUÉ HAY ESTA SEMANA? -->
+    <section id="esta-semana" class="seccion-esta-semana" aria-labelledby="titulo-esta-semana">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="seccion-subtitulo-etiqueta">Consulta Rápida</span>
+          <h2 id="titulo-esta-semana" class="seccion-titulo">¿Qué hay esta semana?</h2>
+          <p class="seccion-descripcion">
+            Pensado para que encuentres de inmediato las actividades más próximas sin tener que buscar en todo el calendario.
+          </p>
+        </div>
+
+        <div id="grid-esta-semana" class="grid-esta-semana">
+          <!-- Renderizado dinámicamente con las actividades más próximas -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: ¿POR QUÉ RUTA DORADA? -->
+    <section class="seccion-por-que" aria-labelledby="titulo-por-que">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="seccion-subtitulo-etiqueta">Nuestros Pilares</span>
+          <h2 id="titulo-por-que" class="seccion-titulo">¿Por qué elegir Ruta Dorada Quiroga?</h2>
+          <p class="seccion-descripcion">
+            Trabajamos con el corazón para ofrecer espacios seguros, activos y enriquecedores para nuestra gente mayor.
+          </p>
+        </div>
+
+        <div class="grid-por-que">
+          <article class="tarjeta-beneficio">
+            <div class="icono-beneficio-wrapper verde" aria-hidden="true">❤️</div>
+            <h3 class="tarjeta-beneficio-titulo">Bienestar</h3>
+            <p class="tarjeta-beneficio-texto">
+              Promovemos actividades que favorecen la salud física, mental y emocional de los adultos mayores de nuestra comunidad.
+            </p>
+          </article>
+
+          <article class="tarjeta-beneficio">
+            <div class="icono-beneficio-wrapper dorado" aria-hidden="true">🤝</div>
+            <h3 class="tarjeta-beneficio-titulo">Comunidad</h3>
+            <p class="tarjeta-beneficio-texto">
+              Creamos espacios para fortalecer la integración, la participación activa y los vínculos de amistad entre vecinos.
+            </p>
+          </article>
+
+          <article class="tarjeta-beneficio">
+            <div class="icono-beneficio-wrapper verde" aria-hidden="true">📅</div>
+            <h3 class="tarjeta-beneficio-titulo">Información Clara</h3>
+            <p class="tarjeta-beneficio-texto">
+              Compartimos actividades, eventos y programas oficiales de manera clara, oportuna y muy fácil de consultar.
+            </p>
+          </article>
+
+          <article class="tarjeta-beneficio">
+            <div class="icono-beneficio-wrapper dorado" aria-hidden="true">🌟</div>
+            <h3 class="tarjeta-beneficio-titulo">Experiencias</h3>
+            <p class="tarjeta-beneficio-texto">
+              Creamos oportunidades para aprender cosas nuevas, compartir saberes valiosos, disfrutar y mantenerse siempre activos.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: ACTIVIDADES PARA ADULTOS MAYORES (Catálogo y Filtros) -->
+    <section id="actividades" class="seccion-actividades" aria-labelledby="titulo-actividades">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="seccion-subtitulo-etiqueta">Programación Continua</span>
+          <h2 id="titulo-actividades" class="seccion-titulo">Actividades para nuestros adultos mayores</h2>
+          <p class="seccion-descripcion">
+            Encuentra actividades de bienestar, salud, recreación, cultura e integración pensadas para nuestra comunidad de Quiroga.
+          </p>
+        </div>
+
+        <!-- Buscador Rápido -->
+        <div class="buscador-wrapper">
+          <span class="icono-buscador" aria-hidden="true">🔍</span>
+          <input 
+            type="search" 
+            id="buscador-actividades" 
+            class="input-buscador" 
+            placeholder="Buscar por nombre, lugar o tema (ej. gimnasia, memoria, arte)..."
+            aria-label="Buscar actividades por palabra clave"
+          >
+        </div>
+
+        <!-- Filtros Funcionales por Categoría -->
+        <div id="filtros-categorias" class="filtros-contenedor" role="toolbar" aria-label="Filtrar por categoría">
+          <!-- Renderizado dinámico de categorías -->
+        </div>
+
+        <!-- Grid de Actividades -->
+        <div id="grid-actividades-catalogo" class="grid-actividades" aria-live="polite">
+          <!-- Renderizado dinámico de tarjetas de actividad -->
+        </div>
+
+        <!-- Botón Ver Más -->
+        <div id="contenedor-ver-mas" class="acciones-ver-todas">
+          <button id="btn-ver-mas-actividades" class="btn-ver-mas-catalogo">
+            <span>🔽</span> Ver más actividades programadas
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: CALENDARIO DE ACTIVIDADES -->
+    <section id="calendario" class="seccion-calendario" aria-labelledby="titulo-calendario">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="seccion-subtitulo-etiqueta">Agenda Mensual</span>
+          <h2 id="titulo-calendario" class="seccion-titulo">Calendario de actividades</h2>
+          <p class="seccion-descripcion">
+            Consulta fácilmente las actividades programadas, sus horarios y lugares. Toca un día del calendario para ver qué habrá ese día.
+          </p>
+        </div>
+
+        <div class="calendario-layout">
+          <!-- Panel del Calendario Mes -->
+          <div class="calendario-panel-mes">
+            <div class="calendario-nav-header">
+              <button id="btn-cal-prev" class="btn-cal-nav" aria-label="Mes anterior">
+                <span>◀</span> Mes anterior
+              </button>
+              <h3 id="cal-mes-titulo" class="calendario-mes-titulo">Septiembre 2026</h3>
+              <button id="btn-cal-next" class="btn-cal-nav" aria-label="Mes siguiente">
+                Mes siguiente <span>▶</span>
+              </button>
+            </div>
+
+            <!-- Cabecera Días Semana -->
+            <div class="calendario-dias-semana" aria-hidden="true">
+              <div>Lun</div>
+              <div>Mar</div>
+              <div>Mié</div>
+              <div>Jue</div>
+              <div>Vie</div>
+              <div>Sáb</div>
+              <div>Dom</div>
+            </div>
+
+            <!-- Grilla interactiva de días -->
+            <div id="cal-grilla-dias" class="calendario-grilla-dias" role="grid">
+              <!-- Celdas renderizadas dinámicamente -->
+            </div>
+          </div>
+
+          <!-- Panel Lateral de Actividades del Día Seleccionado -->
+          <aside class="calendario-panel-eventos" aria-label="Actividades del día seleccionado">
+            <h3 class="panel-eventos-titulo">Actividades para el día</h3>
+            <div id="panel-dia-fecha" class="panel-eventos-fecha">Cargando fecha...</div>
+            <div id="panel-dia-lista" class="lista-eventos-dia">
+              <!-- Lista de actividades del día -->
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: NUESTRO IMPACTO -->
+    <section class="seccion-impacto" aria-labelledby="titulo-impacto">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="seccion-subtitulo-etiqueta" style="color: #ffd978;">Comunidad Activa</span>
+          <h2 id="titulo-impacto" class="seccion-titulo">Nuestro impacto en Quiroga</h2>
+          <p class="seccion-descripcion">
+            Cada cifra representa sonrisas, momentos compartidos y el compromiso constante de construir un territorio amable para envejecer con dignidad.
+          </p>
+        </div>
+
+        <div id="grid-impacto" class="grid-impacto">
+          <!-- Renderizado dinámico desde RUTA_CONFIG -->
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: CONÓCENOS (SOBRE NOSOTROS) -->
+    <section id="conocenos" class="seccion-conocenos" aria-labelledby="titulo-conocenos">
+      <div class="contenedor">
+        <div class="layout-conocenos">
+          <div class="conocenos-imagen-wrap">
+            <img 
+              src="IMG/fondo-inicio.jpg" 
+              alt="Adultos mayores compartiendo en actividades comunitarias del barrio Quiroga" 
+              class="conocenos-imagen"
+            >
+            <div class="badge-comunidad-flotante">
+              <span>🏡</span> Comunidad Quiroga Unida
+            </div>
+          </div>
+
+          <div class="conocenos-textos">
+            <span class="seccion-subtitulo-etiqueta">¿Quiénes somos?</span>
+            <h2 id="titulo-conocenos">Conoce Ruta Dorada Quiroga</h2>
+            <p class="conocenos-parrafo-destacado">
+              "Ruta Dorada Quiroga nace como un espacio pensado para acercar a los adultos mayores de nuestra comunidad a actividades que promueven el bienestar, la participación y el encuentro."
+            </p>
+            <p class="conocenos-parrafo">
+              Creemos firmemente en el inmenso valor, la experiencia y la sabiduría de nuestras personas mayores. Nuestro propósito es conectar la oferta institucional oficial de la Alcaldía Local de Rafael Uribe Uribe y del Centro Día con cada hogar del barrio Quiroga, facilitando el acceso a talleres, salud, recreación y cultura en un lenguaje sencillo y accesible para todos.
+            </p>
+            <div class="conocenos-puntos">
+              <div class="conocenos-item">
+                <span>🌱</span> Fomento de hábitos de vida saludable y prevención en salud.
+              </div>
+              <div class="conocenos-item">
+                <span>🎨</span> Expresión cultural, artes plásticas y desarrollo de talentos.
+              </div>
+              <div class="conocenos-item">
+                <span>🤝</span> Lazos vecinales fuertes y defensa de los derechos de la vejez.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: UBICACIÓN -->
+    <section id="ubicacion" class="seccion-ubicacion" aria-labelledby="titulo-ubicacion">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="seccion-subtitulo-etiqueta">Lugares de Encuentro</span>
+          <h2 id="titulo-ubicacion" class="seccion-titulo">Encuéntranos en el Barrio Quiroga</h2>
+          <p class="seccion-descripcion">
+            Las actividades se realizan en puntos comunitarios conocidos y de fácil acceso en la Localidad Rafael Uribe Uribe, Bogotá D.C.
+          </p>
+        </div>
+
+        <div class="layout-ubicacion">
+          <div class="ubicacion-card-info">
+            <div class="ubicacion-sede-item">
+              <span class="icono-sede" aria-hidden="true">🏢</span>
+              <div>
+                <h3 class="sede-titulo">Salón Comunal del Barrio Quiroga</h3>
+                <p class="sede-direccion">Calle 31b Sur # 22 - 25, Quiroga, Bogotá D.C.</p>
+                <p style="font-size: 0.95rem; color: var(--color-dorado-oscuro); margin-top: 4px;">
+                  Sede de gimnasia dirigida y acondicionamiento físico adaptado.
+                </p>
+              </div>
+            </div>
+
+            <div class="ubicacion-sede-item">
+              <span class="icono-sede" aria-hidden="true">🏡</span>
+              <div>
+                <h3 class="sede-titulo">Centro Día "Casa de la Sabiduría Palabras Mayores"</h3>
+                <p class="sede-direccion">Calle 31b Sur # 23 - 14, Quiroga, Bogotá D.C.</p>
+                <p style="font-size: 0.95rem; color: var(--color-dorado-oscuro); margin-top: 4px;">
+                  Sede de talleres artísticos, inclusión digital, estimulación cognitiva y apoyo nutricional.
+                </p>
+              </div>
+            </div>
+
+            <div class="ubicacion-sede-item">
+              <span class="icono-sede" aria-hidden="true">🏛️</span>
+              <div>
+                <h3 class="sede-titulo">Alcaldía Local de Rafael Uribe Uribe</h3>
+                <p class="sede-direccion">Calle 32 Sur # 23 - 62, Quiroga / Rafael Uribe Uribe</p>
+                <p style="font-size: 0.95rem; color: var(--color-dorado-oscuro); margin-top: 4px;">
+                  Sede de sesiones del Consejo Local de Sabios y Sabias.
+                </p>
+              </div>
+            </div>
+
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query=Barrio+Quiroga+Bogota" 
+              target="_blank" 
+              rel="noopener" 
+              class="btn-como-llegar"
+            >
+              <span>📍</span> Abrir en Google Maps / Cómo llegar
+            </a>
+          </div>
+
+          <div class="mapa-iframe-wrapper">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0177726588825!2d-74.11654852418587!3d4.582845642602758!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99015c6896e3%3A0xc175027cecfd7b42!2sQuiroga%2C%20Bogot%C3%A1!5e0!3m2!1ses!2sco!4v1726329600000!5m2!1ses!2sco" 
+              title="Mapa del Barrio Quiroga, Localidad Rafael Uribe Uribe"
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN: CONTACTO DIRECTO -->
+    <section id="contacto" class="seccion-contacto" aria-labelledby="titulo-contacto">
+      <div class="contenedor">
+        <div class="seccion-encabezado">
+          <span class="seccion-subtitulo-etiqueta">Atención Cercana</span>
+          <h2 id="titulo-contacto" class="seccion-titulo">¿Tienes alguna pregunta?</h2>
+          <p class="seccion-descripcion">
+            Estamos aquí para ayudarte. Comunícate con nosotros para conocer más sobre las actividades, inscripciones y programas disponibles para ti o tus familiares mayores.
+          </p>
+        </div>
+
+        <div class="grid-contacto">
+          <article class="tarjeta-contacto">
+            <div class="icono-contacto-circulo" aria-hidden="true">📞</div>
+            <h3>Llámanos por Teléfono</h3>
+            <p>Atención de lunes a viernes de 8:00 a. m. a 5:00 p. m.</p>
+            <a id="contacto-btn-tel" href="tel:+573105550192" class="btn-contacto-accion telefono">
+              <span>📞</span> Llamar ahora
+            </a>
+          </article>
+
+          <article class="tarjeta-contacto">
+            <div class="icono-contacto-circulo" style="background: #e9fbf0; color: #25d366;" aria-hidden="true">💬</div>
+            <h3>Escríbenos por WhatsApp</h3>
+            <p>Te respondemos cualquier duda sobre horarios y requisitos.</p>
+            <a id="contacto-btn-wa" href="#" target="_blank" rel="noopener" class="btn-contacto-accion whatsapp">
+              <span>💬</span> Escribir por WhatsApp
+            </a>
+          </article>
+
+          <article class="tarjeta-contacto">
+            <div class="icono-contacto-circulo" style="background: #eef4fc; color: #1e3a5f;" aria-hidden="true">✉️</div>
+            <h3>Envíanos un Correo</h3>
+            <p>Escríbenos para orientación o solicitudes comunitarias.</p>
+            <a id="contacto-btn-mail" href="mailto:contacto@rutadoradaquiroga.org" class="btn-contacto-accion correo">
+              <span>✉️</span> Enviar correo
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL ACCESIBLE DE DETALLE DE ACTIVIDAD -->
+  <div id="modal-actividad" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+    <div class="modal-tarjeta">
+      <div class="modal-header">
+        <h2 id="modal-titulo" class="modal-titulo">Nombre de la actividad</h2>
+        <button id="btn-cerrar-modal" class="btn-cerrar-modal" aria-label="Cerrar detalles de la actividad">✕</button>
+      </div>
+
+      <div class="modal-cuerpo">
+        <div class="modal-caja-datos">
+          <div>📅 <strong>Fecha:</strong> <span id="modal-fecha"></span></div>
+          <div>🕐 <strong>Horario:</strong> <span id="modal-horario"></span></div>
+          <div>📍 <strong>Lugar exacto:</strong> <span id="modal-lugar"></span></div>
+          <div>🏷️ <strong>Categoría:</strong> <span id="modal-categoria"></span></div>
+        </div>
+
+        <div>
+          <h3 class="modal-seccion-titulo">Sobre esta actividad</h3>
+          <p id="modal-descripcion" style="font-size: 1.05rem; line-height: 1.6; color: var(--color-texto-principal);"></p>
+        </div>
+
+        <div>
+          <h3 class="modal-seccion-titulo">Recomendaciones importantes</h3>
+          <ul id="modal-recomendaciones" class="modal-recomendaciones-lista">
+            <!-- Recomendaciones dinámicas -->
+          </ul>
+        </div>
+
+        <div id="modal-atribucion" class="modal-atribucion-oficial">
+          <!-- Atribución oficial -->
+        </div>
+
+        <!-- Botones de Acción Accesibles -->
+        <div class="modal-acciones-botones">
+          <a id="btn-modal-mapa" href="#" target="_blank" rel="noopener" class="btn-modal-accion mapa">
+            <span>📍</span> Ver ubicación en Google Maps
+          </a>
+
+          <a id="btn-modal-calendario" href="#" target="_blank" rel="noopener" class="btn-modal-accion calendario">
+            <span>📅</span> Agregar a Google Calendar
+          </a>
+
+          <button id="btn-modal-ics" class="btn-modal-accion calendario" style="background: var(--color-dorado-oscuro);">
+            <span>💾</span> Guardar en mi celular (.ICS)
+          </button>
+
+          <button id="btn-modal-voz" class="btn-modal-accion voz">
+            <span>🔊</span> Escuchar detalles en voz alta (Audio)
+          </button>
+
+          <a id="btn-modal-oficial" href="#" target="_blank" rel="noopener" class="btn-modal-accion oficial">
+            <span>🔗</span> Ver información oficial en portal de la Alcaldía
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE DE WHATSAPP -->
+  <a 
+    id="wa-flotante" 
+    href="#" 
+    target="_blank" 
+    rel="noopener" 
+    class="whatsapp-flotante" 
+    aria-label="Contactar a Ruta Dorada Quiroga por WhatsApp"
+  >
+    <span class="whatsapp-icono-svg" aria-hidden="true">💬</span>
+    <span class="texto-wa">WhatsApp Comunitario</span>
+  </a>
+
+  <!-- PIE DE PÁGINA (FOOTER) -->
+  <footer class="pie-pagina">
+    <div class="contenedor">
+      <div class="grid-footer">
+        <div class="footer-col-marca">
+          <h3>🌟 Ruta Dorada Quiroga</h3>
+          <p class="footer-slogan">"Conectando experiencias, bienestar y comunidad."</p>
+          <p style="font-size: 0.95rem; color: #bed2c1; max-width: 440px;">
+            Iniciativa comunitaria dedicada a fortalecer la inclusión, salud y participación activa de los adultos mayores de la Localidad Rafael Uribe Uribe, Bogotá D.C.
+          </p>
+        </div>
+
+        <div class="footer-col-enlaces">
+          <h4>Navegación</h4>
+          <ul class="footer-lista-enlaces">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#esta-semana">Esta semana</a></li>
+            <li><a href="#actividades">Actividades</a></li>
+            <li><a href="#calendario">Calendario</a></li>
+            <li><a href="#conocenos">Conócenos</a></li>
+            <li><a href="#ubicacion">Ubicación</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col-contacto">
+          <h4>Contacto y Sedes</h4>
+          <p style="font-size: 0.95rem; margin-bottom: 8px;">📍 Barrio Quiroga, Bogotá</p>
+          <p style="font-size: 0.95rem; margin-bottom: 8px;">🏢 Salón Comunal (Cl. 31b Sur # 22 - 25)</p>
+          <p style="font-size: 0.95rem; margin-bottom: 8px;">🏡 Centro Día (Cl. 31b Sur # 23 - 14)</p>
+          <p style="font-size: 0.95rem; margin-top: 15px;">
+            <a href="login.html" style="color: #ffd978; font-weight: 700; text-decoration: underline;">
+              ⚙️ Acceso Administrador
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Ruta Dorada Quiroga. Todos los derechos reservados.</p>
+        <p>Coordinado con programas comunitarios de la Alcaldía Local de Rafael Uribe Uribe.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts Modulares -->
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

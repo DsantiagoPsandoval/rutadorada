@@ -1,0 +1,1799 @@
+/* ==========================================================================
+   RUTA DORADA QUIROGA — SISTEMA DE ESTILOS ACCESIBLE
+   Diseñado especialmente para adultos mayores (Bogotá D.C. - Barrio Quiroga)
+   ========================================================================== */
+
+:root {
+  /* Paleta Cálida e Institucional */
+  --color-verde-principal: #235432;
+  --color-verde-hover: #1b4227;
+  --color-verde-suave: #edf5ef;
+  --color-verde-borde: #c2decb;
+  
+  --color-dorado-principal: #a86f0b;
+  --color-dorado-oscuro: #855706;
+  --color-dorado-suave: #fdf6e7;
+  --color-dorado-borde: #f0dbaf;
+  --color-dorado-acento: #c68b17;
+  
+  --color-azul-suave: #1e3a5f;
+  --color-azul-fondo: #eef4fc;
+  --color-azul-borde: #c4d7ed;
+  
+  --color-fondo: #fcfaf6;
+  --color-fondo-blanco: #ffffff;
+  --color-fondo-marfil: #f7f3ea;
+  
+  --color-texto-principal: #1a261c;
+  --color-texto-secundario: #425245;
+  --color-texto-claro: #ffffff;
+  --color-borde-suave: #e3ddd3;
+
+  /* Accesibilidad y Tipografía */
+  --font-base: "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --base-font-size: 18px;
+  --line-height: 1.6;
+  --radio-borde: 14px;
+  --radio-borde-sm: 8px;
+  --sombra-suave: 0 4px 20px rgba(35, 84, 50, 0.08);
+  --sombra-fuerte: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --sombra-dorada: 0 4px 18px rgba(168, 111, 11, 0.18);
+  --transicion: all 0.25s ease-in-out;
+}
+
+html {
+  font-size: var(--base-font-size);
+  scroll-behavior: smooth;
+}
+
+/* Reset y Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--color-fondo);
+  color: var(--color-texto-principal);
+  line-height: var(--line-height);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  width: 100%;
+  padding-top: 76px; /* Altura de compensación para el navbar fijo */
+}
+
+/* Compensación de anclajes para que las secciones no queden tapadas por el navbar fijo */
+section[id] {
+  scroll-margin-top: 88px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-verde-principal);
+  text-decoration: none;
+  transition: var(--transicion);
+}
+
+a:hover, a:focus-visible {
+  color: var(--color-dorado-principal);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition: var(--transicion);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-dorado-acento);
+  outline-offset: 3px;
+}
+
+/* Contenedor Común */
+.contenedor {
+  width: 92%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+/* Distintivos de Fuente (Alcaldía vs. Ruta Dorada) */
+.badge-fuente-oficial {
+  background: #eef4fc;
+  color: #1e3a5f;
+  border: 1px solid #c4d7ed;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-fuente-propia {
+  background: #fdf6e7;
+  color: #a86f0b;
+  border: 1px solid #f0dbaf;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ==========================================================================
+   ENCABEZADO / NAVBAR (MENÚ SUPERIOR FIJO)
+   ========================================================================== */
+header.encabezado-principal {
+  background: var(--color-fondo-blanco);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: var(--sombra-suave);
+  border-bottom: 1px solid var(--color-borde-suave);
+}
+
+.nav-contenedor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+
+.logo-sitio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--color-verde-principal);
+}
+
+.logo-icono {
+  width: 46px;
+  height: 46px;
+  background: linear-gradient(135deg, var(--color-verde-principal), var(--color-dorado-acento));
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.logo-textos {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-titulo {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  line-height: 1.2;
+}
+
+.logo-subtitulo {
+  font-size: 0.82rem;
+  color: var(--color-dorado-oscuro);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Menú Escritorio */
+.menu-escritorio {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  list-style: none;
+}
+
+.menu-escritorio a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-texto-principal);
+  padding: 8px 12px;
+  border-radius: var(--radio-borde-sm);
+  display: inline-block;
+}
+
+.menu-escritorio a:hover,
+.menu-escritorio a.activo {
+  background: var(--color-verde-suave);
+  color: var(--color-verde-principal);
+}
+
+.btn-header-destacado {
+  background: var(--color-dorado-principal);
+  color: #ffffff !important;
+  padding: 10px 18px !important;
+  border-radius: 30px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--sombra-dorada);
+}
+
+.btn-header-destacado:hover {
+  background: var(--color-dorado-oscuro) !important;
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+/* Botón Menú Hamburguesa (Móvil) */
+.btn-menu-movil {
+  display: none;
+  background: var(--color-verde-suave);
+  color: var(--color-verde-principal);
+  border: 2px solid var(--color-verde-borde);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+}
+
+/* Panel Menú Móvil Desplegable */
+.menu-movil-desplegable {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2000;
+}
+
+.menu-movil-desplegable.abierto {
+  display: block;
+}
+
+.menu-movil-contenido {
+  background: var(--color-fondo-blanco);
+  width: 85%;
+  max-width: 380px;
+  height: 100%;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--sombra-fuerte);
+  overflow-y: auto;
+}
+
+.menu-movil-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--color-borde-suave);
+}
+
+.btn-cerrar-menu {
+  background: var(--color-fondo-marfil);
+  color: var(--color-texto-principal);
+  font-size: 1.5rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde-suave);
+}
+
+.menu-movil-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-movil-lista a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-texto-principal);
+  background: var(--color-fondo);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-borde);
+  min-height: 52px;
+}
+
+.menu-movil-lista a:hover,
+.menu-movil-lista a:focus {
+  background: var(--color-verde-suave);
+  color: var(--color-verde-principal);
+}
+
+/* ==========================================================================
+   PORTADA / HERO
+   ========================================================================== */
+.hero-seccion {
+  position: relative;
+  background-color: #173822;
+  background-image: 
+    linear-gradient(to right, rgba(16, 43, 25, 0.92) 0%, rgba(26, 61, 37, 0.85) 50%, rgba(16, 43, 25, 0.70) 100%),
+    url("IMG/fondo-inicio.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  padding: 70px 0 80px;
+  min-height: 540px;
+  display: flex;
+  align-items: center;
+}
+
+.hero-contenido {
+  max-width: 780px;
+}
+
+.hero-etiqueta-bienvenida {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(198, 139, 23, 0.25);
+  border: 1px solid var(--color-dorado-acento);
+  color: #ffe4a0;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.hero-titulo {
+  font-size: clamp(1.65rem, 5.2vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.18;
+  color: #ffffff;
+  margin-bottom: 12px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.hero-titulo .palabra-dorada {
+  color: #ffd269;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-slogan {
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: #f7ede0;
+  margin-bottom: 18px;
+  line-height: 1.35;
+}
+
+.hero-descripcion {
+  font-size: 1.12rem;
+  line-height: 1.65;
+  color: #e6f2ea;
+  margin-bottom: 30px;
+  max-width: 680px;
+}
+
+.hero-acciones {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-cta-primario {
+  background: var(--color-dorado-acento);
+  color: #172418;
+  font-size: 1.15rem;
+  font-weight: 800;
+  padding: 16px 30px;
+  border-radius: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(198, 139, 23, 0.4);
+  min-height: 54px;
+}
+
+.btn-cta-primario:hover, .btn-cta-primario:focus-visible {
+  background: #ffdb80;
+  color: #000;
+  transform: translateY(-2px);
+}
+
+.btn-cta-secundario {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  padding: 16px 28px;
+  border-radius: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+}
+
+.btn-cta-secundario:hover, .btn-cta-secundario:focus-visible {
+  background: #ffffff;
+  color: var(--color-verde-principal);
+  border-color: #ffffff;
+}
+
+/* ==========================================================================
+   SECCIÓN: ¿QUÉ HAY ESTA SEMANA? (Prioridad para adultos mayores)
+   ========================================================================== */
+.seccion-esta-semana {
+  background: var(--color-dorado-suave);
+  padding: 50px 0;
+  border-bottom: 3px solid var(--color-dorado-borde);
+}
+
+.seccion-encabezado {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.seccion-subtitulo-etiqueta {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-dorado-oscuro);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.seccion-titulo {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.seccion-descripcion {
+  font-size: 1.15rem;
+  color: var(--color-texto-secundario);
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.grid-esta-semana {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 22px;
+}
+
+.tarjeta-semana {
+  background: var(--color-fondo-blanco);
+  border-radius: var(--radio-borde);
+  padding: 24px;
+  border: 2px solid var(--color-dorado-borde);
+  box-shadow: var(--sombra-suave);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: var(--transicion);
+}
+
+.tarjeta-semana:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.tarjeta-semana.hoy {
+  border-color: var(--color-verde-principal);
+  background: #f4faf6;
+}
+
+.badge-tiempo {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  align-self: flex-start;
+}
+
+.badge-tiempo.hoy {
+  background: var(--color-verde-principal);
+  color: #fff;
+}
+
+.badge-tiempo.manana {
+  background: var(--color-dorado-principal);
+  color: #fff;
+}
+
+.badge-tiempo.proximo {
+  background: var(--color-azul-suave);
+  color: #fff;
+}
+
+.tarjeta-semana-titulo {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.tarjeta-semana-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 1.02rem;
+  color: var(--color-texto-secundario);
+  margin-bottom: 18px;
+}
+
+.tarjeta-semana-meta span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-detalles-semana {
+  background: var(--color-verde-principal);
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: var(--radio-borde-sm);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+}
+
+.btn-detalles-semana:hover, .btn-detalles-semana:focus-visible {
+  background: var(--color-dorado-principal);
+  color: #fff;
+}
+
+/* ==========================================================================
+   SECCIÓN: ¿POR QUÉ RUTA DORADA? (4 Tarjetas)
+   ========================================================================== */
+.seccion-por-que {
+  padding: 65px 0;
+  background: var(--color-fondo);
+}
+
+.grid-por-que {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.tarjeta-beneficio {
+  background: var(--color-fondo-blanco);
+  border-radius: var(--radio-borde);
+  padding: 30px 24px;
+  border: 1px solid var(--color-borde-suave);
+  box-shadow: var(--sombra-suave);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: var(--transicion);
+}
+
+.tarjeta-beneficio:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-dorado-borde);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.icono-beneficio-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.icono-beneficio-wrapper.verde {
+  background: var(--color-verde-suave);
+  border: 1px solid var(--color-verde-borde);
+}
+
+.icono-beneficio-wrapper.dorado {
+  background: var(--color-dorado-suave);
+  border: 1px solid var(--color-dorado-borde);
+}
+
+.tarjeta-beneficio-titulo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+}
+
+.tarjeta-beneficio-texto {
+  font-size: 1.05rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   SECCIÓN: ACTIVIDADES PARA ADULTOS MAYORES (Catálogo y Filtros)
+   ========================================================================== */
+.seccion-actividades {
+  padding: 70px 0;
+  background: var(--color-fondo-blanco);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+/* Barra de Filtros Funcionales */
+.filtros-contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+.btn-filtro {
+  background: var(--color-fondo-marfil);
+  color: var(--color-texto-principal);
+  border: 2px solid var(--color-borde-suave);
+  padding: 12px 20px;
+  border-radius: 30px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  transition: var(--transicion);
+}
+
+.btn-filtro:hover {
+  background: var(--color-verde-suave);
+  border-color: var(--color-verde-principal);
+  color: var(--color-verde-principal);
+}
+
+.btn-filtro.activo {
+  background: var(--color-verde-principal);
+  color: #ffffff;
+  border-color: var(--color-verde-principal);
+  box-shadow: 0 4px 12px rgba(35, 84, 50, 0.25);
+}
+
+/* Buscador de Actividades */
+.buscador-wrapper {
+  max-width: 500px;
+  margin: 0 auto 35px;
+  position: relative;
+}
+
+.input-buscador {
+  width: 100%;
+  padding: 14px 20px 14px 50px;
+  font-size: 1.05rem;
+  border: 2px solid var(--color-borde-suave);
+  border-radius: 30px;
+  background: var(--color-fondo);
+  font-family: inherit;
+  min-height: 52px;
+}
+
+.input-buscador:focus {
+  outline: none;
+  border-color: var(--color-verde-principal);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(35, 84, 50, 0.12);
+}
+
+.icono-buscador {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: var(--color-texto-secundario);
+}
+
+/* Grid de Actividades */
+.grid-actividades {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 26px;
+  margin-bottom: 40px;
+}
+
+.tarjeta-actividad {
+  background: var(--color-fondo);
+  border-radius: var(--radio-borde);
+  border: 1px solid var(--color-borde-suave);
+  box-shadow: var(--sombra-suave);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transicion);
+}
+
+.tarjeta-actividad:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-verde-borde);
+  box-shadow: var(--sombra-fuerte);
+}
+
+.actividad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.badge-categoria {
+  background: var(--color-verde-suave);
+  color: var(--color-verde-principal);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-verde-borde);
+}
+
+.badge-oficial {
+  background: var(--color-dorado-suave);
+  color: var(--color-dorado-oscuro);
+  border: 1px solid var(--color-dorado-borde);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.actividad-titulo {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+
+.actividad-detalles-rapidos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 1.02rem;
+  color: var(--color-texto-secundario);
+}
+
+.actividad-fila-meta {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.icono-meta {
+  font-size: 1.2rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+.actividad-descripcion-corta {
+  font-size: 1rem;
+  color: var(--color-texto-principal);
+  line-height: 1.55;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.btn-ver-detalles-card {
+  background: var(--color-verde-principal);
+  color: #ffffff;
+  padding: 14px 22px;
+  border-radius: var(--radio-borde-sm);
+  font-size: 1.08rem;
+  font-weight: 800;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  width: 100%;
+}
+
+.btn-ver-detalles-card:hover, .btn-ver-detalles-card:focus-visible {
+  background: var(--color-dorado-principal);
+  color: #fff;
+}
+
+.acciones-ver-todas {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.btn-ver-mas-catalogo {
+  background: var(--color-fondo-marfil);
+  color: var(--color-verde-principal);
+  border: 2px solid var(--color-verde-principal);
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+}
+
+.btn-ver-mas-catalogo:hover {
+  background: var(--color-verde-principal);
+  color: #fff;
+}
+
+/* ==========================================================================
+   SECCIÓN: CALENDARIO DE ACTIVIDADES INTERACTIVO
+   ========================================================================== */
+.seccion-calendario {
+  padding: 70px 0;
+  background: var(--color-fondo-marfil);
+  border-top: 1px solid var(--color-borde-suave);
+  border-bottom: 1px solid var(--color-borde-suave);
+}
+
+.calendario-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 30px;
+  background: var(--color-fondo-blanco);
+  padding: 30px;
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-suave);
+  border: 1px solid var(--color-borde-suave);
+}
+
+/* Panel del Calendario */
+.calendario-panel-mes {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendario-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.btn-cal-nav {
+  background: var(--color-verde-suave);
+  color: var(--color-verde-principal);
+  border: 2px solid var(--color-verde-borde);
+  padding: 10px 18px;
+  border-radius: var(--radio-borde-sm);
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+}
+
+.btn-cal-nav:hover {
+  background: var(--color-verde-principal);
+  color: #ffffff;
+}
+
+.calendario-mes-titulo {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  text-transform: capitalize;
+}
+
+.calendario-dias-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+  font-weight: 800;
+  color: var(--color-dorado-oscuro);
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.calendario-grilla-dias {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.dia-celda {
+  aspect-ratio: 1 / 1;
+  min-height: 52px;
+  background: var(--color-fondo);
+  border: 2px solid var(--color-borde-suave);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  position: relative;
+  cursor: pointer;
+  transition: var(--transicion);
+}
+
+.dia-celda:hover {
+  background: var(--color-verde-suave);
+  border-color: var(--color-verde-principal);
+}
+
+.dia-celda.otro-mes {
+  opacity: 0.35;
+  cursor: default;
+  background: transparent;
+}
+
+.dia-celda.hoy {
+  border-color: var(--color-verde-principal);
+  background: #f0f7f2;
+}
+
+.dia-celda.hoy .numero-dia {
+  color: var(--color-verde-principal);
+  font-weight: 900;
+}
+
+.dia-celda.seleccionado {
+  background: var(--color-verde-principal) !important;
+  color: #ffffff !important;
+  border-color: var(--color-verde-principal) !important;
+}
+
+.dia-celda.seleccionado .punto-actividad {
+  background: var(--color-dorado-acento) !important;
+}
+
+.dia-celda.tiene-actividades {
+  font-weight: 900;
+}
+
+.punto-actividad {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-dorado-acento);
+  position: absolute;
+  bottom: 6px;
+}
+
+/* Panel Lateral de Actividades del Día */
+.calendario-panel-eventos {
+  background: var(--color-fondo);
+  border-radius: var(--radio-borde);
+  padding: 24px;
+  border: 1px solid var(--color-borde-suave);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-eventos-titulo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  margin-bottom: 6px;
+}
+
+.panel-eventos-fecha {
+  font-size: 1.05rem;
+  color: var(--color-dorado-oscuro);
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-borde-suave);
+}
+
+.lista-eventos-dia {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  max-height: 440px;
+}
+
+.item-evento-dia {
+  background: #ffffff;
+  border-radius: var(--radio-borde-sm);
+  padding: 16px;
+  border: 1px solid var(--color-borde-suave);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.item-evento-dia-titulo {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  margin-bottom: 6px;
+}
+
+.item-evento-dia-meta {
+  font-size: 0.95rem;
+  color: var(--color-texto-secundario);
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.btn-ver-detalle-mini {
+  background: var(--color-dorado-principal);
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  width: 100%;
+}
+
+.sin-eventos-aviso {
+  padding: 30px 10px;
+  text-align: center;
+  color: var(--color-texto-secundario);
+  font-size: 1.05rem;
+}
+
+/* ==========================================================================
+   SECCIÓN: NUESTRO IMPACTO
+   ========================================================================== */
+.seccion-impacto {
+  padding: 60px 0;
+  background: var(--color-verde-principal);
+  color: #ffffff;
+}
+
+.seccion-impacto .seccion-titulo {
+  color: #ffffff;
+}
+
+.seccion-impacto .seccion-descripcion {
+  color: #d6eadc;
+}
+
+.grid-impacto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  margin-top: 35px;
+}
+
+.tarjeta-impacto {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radio-borde);
+  padding: 30px 20px;
+  text-align: center;
+  backdrop-filter: blur(4px);
+}
+
+.tarjeta-impacto-icono {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+
+.tarjeta-impacto-numero {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #ffd978;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.tarjeta-impacto-texto {
+  font-size: 1.1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   SECCIÓN: CONÓCENOS (SOBRE NOSOTROS)
+   ========================================================================== */
+.seccion-conocenos {
+  padding: 75px 0;
+  background: var(--color-fondo);
+}
+
+.layout-conocenos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+.conocenos-imagen-wrap {
+  position: relative;
+}
+
+.conocenos-imagen {
+  border-radius: 20px;
+  box-shadow: var(--sombra-fuerte);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border: 4px solid #ffffff;
+}
+
+.badge-comunidad-flotante {
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  background: var(--color-dorado-acento);
+  color: #1a261c;
+  font-weight: 800;
+  padding: 12px 22px;
+  border-radius: 30px;
+  box-shadow: var(--sombra-fuerte);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+}
+
+.conocenos-textos h2 {
+  font-size: 2.3rem;
+  font-weight: 900;
+  color: var(--color-verde-principal);
+  line-height: 1.25;
+  margin-bottom: 18px;
+}
+
+.conocenos-parrafo-destacado {
+  font-size: 1.22rem;
+  font-weight: 600;
+  color: var(--color-dorado-oscuro);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.conocenos-parrafo {
+  font-size: 1.08rem;
+  color: var(--color-texto-secundario);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.conocenos-puntos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.conocenos-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-verde-principal);
+}
+
+/* ==========================================================================
+   SECCIÓN: UBICACIÓN (QUIROGA - MAPA)
+   ========================================================================== */
+.seccion-ubicacion {
+  padding: 70px 0;
+  background: var(--color-fondo-blanco);
+  border-top: 1px solid var(--color-borde-suave);
+}
+
+.layout-ubicacion {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.ubicacion-card-info {
+  background: var(--color-fondo);
+  border: 1px solid var(--color-borde-suave);
+  border-radius: var(--radio-borde);
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ubicacion-sede-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.icono-sede {
+  font-size: 1.8rem;
+  min-width: 36px;
+}
+
+.sede-titulo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  margin-bottom: 4px;
+}
+
+.sede-direccion {
+  font-size: 1.05rem;
+  color: var(--color-texto-secundario);
+}
+
+.mapa-iframe-wrapper {
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  border: 3px solid #ffffff;
+  height: 380px;
+}
+
+.mapa-iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.btn-como-llegar {
+  background: var(--color-dorado-principal);
+  color: #ffffff;
+  padding: 14px 26px;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  align-self: flex-start;
+}
+
+.btn-como-llegar:hover {
+  background: var(--color-dorado-oscuro);
+  color: #fff;
+}
+
+/* ==========================================================================
+   SECCIÓN: CONTACTO DIRECTO
+   ========================================================================== */
+.seccion-contacto {
+  padding: 70px 0;
+  background: var(--color-verde-suave);
+  border-top: 2px solid var(--color-verde-borde);
+}
+
+.grid-contacto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 35px;
+}
+
+.tarjeta-contacto {
+  background: var(--color-fondo-blanco);
+  border-radius: var(--radio-borde);
+  padding: 30px 24px;
+  border: 1px solid var(--color-verde-borde);
+  box-shadow: var(--sombra-suave);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.icono-contacto-circulo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--color-verde-suave);
+  color: var(--color-verde-principal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.tarjeta-contacto h3 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+}
+
+.tarjeta-contacto p {
+  font-size: 1.05rem;
+  color: var(--color-texto-secundario);
+}
+
+.btn-contacto-accion {
+  padding: 14px 24px;
+  border-radius: 30px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 50px;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-contacto-accion.telefono {
+  background: var(--color-verde-principal);
+  color: #ffffff;
+}
+
+.btn-contacto-accion.whatsapp {
+  background: #25d366;
+  color: #ffffff;
+}
+
+.btn-contacto-accion.correo {
+  background: var(--color-azul-suave);
+  color: #ffffff;
+}
+
+.btn-contacto-accion:hover {
+  opacity: 0.92;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   BOTÓN FLOTANTE DE WHATSAPP (ACCESIBLE PARA ADULTOS MAYORES)
+   ========================================================================== */
+.whatsapp-flotante {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #25d366;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 40px;
+  box-shadow: 0 6px 25px rgba(37, 211, 102, 0.45);
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.1rem;
+  min-height: 56px;
+  transition: var(--transicion);
+}
+
+.whatsapp-flotante:hover, .whatsapp-flotante:focus-visible {
+  background: #20ba59;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.whatsapp-icono-svg {
+  font-size: 1.6rem;
+}
+
+/* ==========================================================================
+   MODAL ACCESIBLE DE ACTIVIDAD COMPLETA
+   ========================================================================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.activo {
+  display: flex;
+}
+
+.modal-tarjeta {
+  background: var(--color-fondo-blanco);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--sombra-fuerte);
+  border: 3px solid var(--color-dorado-acento);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 24px 28px;
+  background: var(--color-verde-suave);
+  border-bottom: 2px solid var(--color-verde-borde);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.modal-titulo {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--color-verde-principal);
+  line-height: 1.25;
+}
+
+.btn-cerrar-modal {
+  background: var(--color-fondo-blanco);
+  color: var(--color-texto-principal);
+  border: 2px solid var(--color-borde-suave);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-cerrar-modal:hover {
+  background: #ff4d4d;
+  color: #fff;
+  border-color: #ff4d4d;
+}
+
+.modal-cuerpo {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-caja-datos {
+  background: var(--color-fondo);
+  border-radius: var(--radio-borde);
+  padding: 18px 20px;
+  border: 1px solid var(--color-borde-suave);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 1.05rem;
+}
+
+.modal-seccion-titulo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-verde-principal);
+  margin-bottom: 6px;
+}
+
+.modal-recomendaciones-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-recomendaciones-lista li {
+  position: relative;
+  padding-left: 28px;
+  font-size: 1.05rem;
+  color: var(--color-texto-principal);
+}
+
+.modal-recomendaciones-lista li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: var(--color-verde-principal);
+  font-weight: 900;
+}
+
+.modal-atribucion-oficial {
+  background: var(--color-azul-fondo);
+  border: 1px solid var(--color-azul-borde);
+  border-radius: var(--radio-borde-sm);
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  color: var(--color-azul-suave);
+  font-weight: 600;
+}
+
+.modal-acciones-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-modal-accion {
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  text-decoration: none;
+}
+
+.btn-modal-accion.mapa {
+  background: var(--color-verde-principal);
+  color: #ffffff;
+}
+
+.btn-modal-accion.calendario {
+  background: var(--color-dorado-principal);
+  color: #ffffff;
+}
+
+.btn-modal-accion.voz {
+  background: var(--color-azul-suave);
+  color: #ffffff;
+}
+
+.btn-modal-accion.oficial {
+  background: var(--color-fondo-marfil);
+  color: var(--color-texto-principal);
+  border: 2px solid var(--color-borde-suave);
+}
+
+.btn-modal-accion:hover {
+  opacity: 0.92;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   PIE DE PÁGINA (FOOTER)
+   ========================================================================== */
+footer.pie-pagina {
+  background: #152417;
+  color: #e3ebd8;
+  padding: 60px 0 30px;
+  border-top: 4px solid var(--color-dorado-acento);
+}
+
+.grid-footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-col-marca h3 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffd978;
+  margin-bottom: 10px;
+}
+
+.footer-slogan {
+  font-size: 1.08rem;
+  color: #e2ede5;
+  margin-bottom: 16px;
+}
+
+.footer-col-enlaces h4,
+.footer-col-contacto h4 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 18px;
+}
+
+.footer-lista-enlaces {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-lista-enlaces a {
+  color: #c7d8cb;
+  font-size: 1.02rem;
+}
+
+.footer-lista-enlaces a:hover {
+  color: #ffd978;
+  padding-left: 4px;
+}
+
+.footer-bottom {
+  padding-top: 25px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES — RESPONSIVE DESIGN (MÓVIL PRIMERO)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .menu-escritorio {
+    display: none;
+  }
+
+  .btn-menu-movil {
+    display: inline-flex;
+  }
+
+  .calendario-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .layout-conocenos,
+  .layout-ubicacion {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-footer {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-titulo {
+    font-size: clamp(1.5rem, 6vw, 2.1rem);
+  }
+
+  .hero-slogan {
+    font-size: 1.25rem;
+  }
+
+  .seccion-titulo {
+    font-size: 1.85rem;
+  }
+
+  .grid-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .whatsapp-flotante span.texto-wa {
+    display: none;
+  }
+
+  .whatsapp-flotante {
+    padding: 14px;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --base-font-size: 16px;
+  }
+
+  .contenedor {
+    width: 94%;
+  }
+
+  .barra-accesibilidad .contenedor {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+
+  .accesibilidad-botones {
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .btn-acc {
+    padding: 5px 8px;
+    font-size: 0.82rem;
+  }
+
+  .hero-seccion {
+    padding: 35px 0 45px;
+    min-height: auto;
+  }
+
+  .hero-etiqueta-bienvenida {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .hero-titulo {
+    font-size: clamp(1.35rem, 5.8vw, 1.7rem);
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-height: 1.25;
+  }
+
+  .hero-slogan {
+    font-size: 1.15rem;
+    line-height: 1.35;
+  }
+
+  .hero-descripcion {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .btn-cta-primario,
+  .btn-cta-secundario {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .calendario-layout {
+    padding: 12px;
+  }
+
+  .dia-celda {
+    min-height: 40px;
+    font-size: 0.95rem;
+  }
+
+  .modal-tarjeta {
+    max-height: 95vh;
+    border-radius: 14px;
+  }
+
+  .modal-header {
+    padding: 16px 18px;
+  }
+
+  .modal-cuerpo {
+    padding: 16px;
+    gap: 16px;
+  }
+}

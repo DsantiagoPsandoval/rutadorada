@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso Administrativo | Ruta Dorada Quiroga</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .login-pagina {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #173822 0%, #235432 100%);
+      padding: 20px;
+    }
+
+    .login-tarjeta {
+      background: #ffffff;
+      border-radius: var(--radio-borde);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 440px;
+      padding: 40px 32px;
+      border-top: 5px solid var(--color-dorado-acento);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login-icono {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--color-verde-suave);
+      color: var(--color-verde-principal);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    .login-titulo {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--color-verde-principal);
+      margin-bottom: 8px;
+    }
+
+    .login-subtitulo {
+      font-size: 1rem;
+      color: var(--color-texto-secundario);
+      line-height: 1.45;
+    }
+
+    .login-formulario {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .campo-grupo {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .campo-grupo label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--color-texto-principal);
+    }
+
+    .campo-input {
+      padding: 14px 16px;
+      border: 2px solid var(--color-borde-suave);
+      border-radius: 8px;
+      font-size: 1.05rem;
+      font-family: inherit;
+      width: 100%;
+      transition: var(--transicion);
+    }
+
+    .campo-input:focus {
+      outline: none;
+      border-color: var(--color-verde-principal);
+      box-shadow: 0 0 0 3px rgba(35, 84, 50, 0.15);
+    }
+
+    .alerta-error {
+      display: none;
+      background: #fdf2f2;
+      border: 1px solid #f8b4b4;
+      color: #9b1c1c;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .btn-login {
+      background: var(--color-verde-principal);
+      color: #ffffff;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      transition: var(--transicion);
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background: var(--color-verde-hover);
+      transform: translateY(-2px);
+    }
+
+    .login-footer-link {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 0.95rem;
+    }
+
+    .login-footer-link a {
+      color: var(--color-verde-principal);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body class="login-pagina">
+  <div class="login-tarjeta">
+    <div class="login-header">
+      <div class="login-icono" aria-hidden="true">🔐</div>
+      <h1 class="login-titulo">Administración</h1>
+      <p class="login-subtitulo">Gestiona las actividades de Ruta Dorada Quiroga.</p>
+    </div>
+
+    <div id="alerta-error" class="alerta-error" role="alert">
+      Usuario o contraseña incorrectos.
+    </div>
+
+    <form id="form-login" class="login-formulario">
+      <div class="campo-grupo">
+        <label for="input-usuario">Usuario</label>
+        <input 
+          type="text" 
+          id="input-usuario" 
+          class="campo-input" 
+          placeholder="admin@rutadorada.org"
+          required 
+          autocomplete="username"
+        >
+      </div>
+
+      <div class="campo-grupo">
+        <label for="input-password">Contraseña</label>
+        <input 
+          type="password" 
+          id="input-password" 
+          class="campo-input" 
+          placeholder="••••••••••••"
+          required 
+          autocomplete="current-password"
+        >
+      </div>
+
+      <button type="submit" id="btn-submit" class="btn-login">
+        <span>Iniciar sesión</span>
+      </button>
+    </form>
+
+    <div class="login-footer-link">
+      <a href="index.html">← Volver al sitio público</a>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Si ya existe sesión activa, redirigir directo al admin
+    (async () => {
+      const valida = await window.Auth.verificarSesion();
+      if (valida) {
+        window.location.replace("/admin.html");
+      }
+    })();
+
+    const form = document.getElementById("form-login");
+    const inputUser = document.getElementById("input-usuario");
+    const inputPass = document.getElementById("input-password");
+    const alertaError = document.getElementById("alerta-error");
+    const btnSubmit = document.getElementById("btn-submit");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      alertaError.style.display = "none";
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = "Verificando...";
+
+      const usuario = inputUser.value.trim();
+      const pass = inputPass.value;
+
+      const resultado = await window.Auth.login(usuario, pass);
+
+      if (resultado.success) {
+        window.location.replace("/admin.html");
+      } else {
+        alertaError.textContent = resultado.error || "Usuario o contraseña incorrectos.";
+        alertaError.style.display = "block";
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = "<span>Iniciar sesión</span>";
+      }
+    });
+  </script>
+</body>
+
+</html>
