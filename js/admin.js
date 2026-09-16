@@ -5,9 +5,10 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Verificar autenticación
-  if (window.Auth) {
-    window.Auth.protegerRutaAdmin();
+  // Verificar autenticación mediante clave de 6 dígitos
+  if (!window.Auth || !window.Auth.estaAutenticado()) {
+    window.location.replace("login.html");
+    return;
   }
 
   // Elementos DOM
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnCancelar = document.getElementById("btn-cancelar");
   const btnCerrarSesion = document.getElementById("btn-cerrar-sesion");
   const btnScrollNueva = document.getElementById("btn-scroll-nueva");
+  const btnExportarJson = document.getElementById("btn-exportar-json");
 
   // Métricas DOM
   const statActivas = document.getElementById("stat-activas");
@@ -31,6 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let idParaEliminar = null;
   let actividades = [];
+  const LOCAL_STORAGE_KEY = "ruta_dorada_custom_actividades";
+  const DELETED_STORAGE_KEY = "ruta_dorada_deleted_actividades";
 
   // Inicializar
   cargarActividades();
@@ -41,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.Auth) {
         window.Auth.cerrarSesion();
       } else {
-        window.location.replace("/login.html");
+        window.location.replace("login.html");
       }
     });
   }
@@ -54,6 +58,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Exportar archivo data/actividades.json para que los cambios se reflejen para todos los usuarios
+  if (btnExportarJson) {
+    btnExportarJson.addEventListener("click", () => {
+      const localData = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const dataAExportar = localData ? JSON.parse(localData) : actividades.filter(a => !a.esOficial);
+      const jsonStr = JSON.stringify(dataAExportar, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "actividades.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      alert("Se ha descargado 'actividades.json'. Guárdalo en la carpeta 'data/' para sincronizar los cambios de todos los usuarios al subirlo a GitHub.");
+    });
+  }
+
   function getApiUrl(endpoint) {
     const base = window.Auth && typeof window.Auth.getApiBaseUrl === "function" ? window.Auth.getApiBaseUrl() : "";
     return `${base}${endpoint}`;
@@ -61,21 +84,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Cargar datos
   async function cargarActividades() {
+    let customActs = [];
+    let deletedIds = new Set();
+
+    // 1. Obtener IDs eliminados de localStorage
+    try {
+      const delData = localStorage.getItem(DELETED_STORAGE_KEY);
+      if (delData) {
+        deletedIds = new Set(JSON.parse(delData));
+      }
+    } catch (e) {
+      console.warn("Error leyendo eliminadas:", e);
+    }
+
+    // 2. Cargar actividades guardadas en localStorage (soporte local y GitHub)
+    try {
+      const localData = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (localData) {
+        customActs = JSON.parse(localData);
+      }
+    } catch (e) {
+      console.warn("Error leyendo actividades de localStorage:", e);
+    }
+
+    // 3. Consultar backend si está disponible; si no, consultar data/actividades.json
+    let cargadasDelServidor = false;
     try {
       const resp = await fetch(getApiUrl("/api/actividades"));
       if (resp.ok) {
-        const dataCustom = await resp.json();
-        // Combinar oficiales con las personalizadas
-        const base = (window.TODAS_LAS_ACTIVIDADES || []).slice(0, 20);
-        // Filtrar repetidas
-        const idsCustom = new Set(dataCustom.map(d => d.id));
-        actividades = [...dataCustom, ...base.filter(b => !idsCustom.has(b.id))];
-      } else {
-        actividades = (window.TODAS_LAS_ACTIVIDADES || []).slice(0, 25);
+        const serverData = await resp.json();
+        if (Array.isArray(serverData) && serverData.length > 0) {
+          const map = new Map();
+          serverData.forEach(d => map.set(d.id, d));
+          customActs.forEach(d => { if (!map.has(d.id)) map.set(d.id, d); });
+          customActs = Array.from(map.values());
+          localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(customActs));
+          cargadasDelServidor = true;
+        }
       }
-    } catch {
-      actividades = (window.TODAS_LAS_ACTIVIDADES || []).slice(0, 25);
+    } catch (err) {
+      // Servidor backend offline
     }
+
+    if (!cargadasDelServidor) {
+      try {
+        const respStatic = await fetch("data/actividades.json");
+        if (respStatic.ok) {
+          const staticData = await respStatic.json();
+          if (Array.isArray(staticData) && staticData.length > 0) {
+            const map = new Map();
+            staticData.forEach(d => map.set(d.id, d));
+            customActs.forEach(d => { if (!map.has(d.id)) map.set(d.id, d); });
+            customActs = Array.from(map.values());
+          }
+        }
+      } catch (e) {
+        // Archivo estático offline
+      }
+    }
+
+    // 4. Combinar con las actividades base de data.js
+    const base = (window.TODAS_LAS_ACTIVIDADES || []);
+    const idsCustom = new Set(customActs.map(d => d.id));
+    actividades = [
+      ...customActs.filter(a => !deletedIds.has(a.id)),
+      ...base.filter(b => !idsCustom.has(b.id) && !deletedIds.has(b.id))
+    ];
 
     actualizarMetricas();
     renderizarTabla();
@@ -183,8 +257,30 @@ document.addEventListener("DOMContentLoaded", () => {
       ]
     };
 
+    // Guardar en localStorage inmediatamente (garantiza persistencia en GitHub Pages)
+    try {
+      let localGuardadas = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || "[]");
+      const idx = localGuardadas.findIndex(a => a.id === actividadData.id);
+      if (idx >= 0) {
+        localGuardadas[idx] = actividadData;
+      } else {
+        localGuardadas.unshift(actividadData);
+      }
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localGuardadas));
+
+      // Si estaba en la lista de eliminadas, removerlo
+      let deletedIds = JSON.parse(localStorage.getItem(DELETED_STORAGE_KEY) || "[]");
+      if (deletedIds.includes(actividadData.id)) {
+        deletedIds = deletedIds.filter(item => item !== actividadData.id);
+        localStorage.setItem(DELETED_STORAGE_KEY, JSON.stringify(deletedIds));
+      }
+    } catch (err) {
+      console.warn("Error guardando en almacenamiento local:", err);
+    }
+
     const headers = window.Auth ? window.Auth.getHeaders() : { "Content-Type": "application/json" };
 
+    // Si hay backend, también enviar la petición al servidor
     try {
       if (id) {
         // PUT
@@ -202,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     } catch (err) {
-      console.warn("Guardado local fallback:", err);
+      console.info("[Admin] Guardado local exitoso (servidor backend offline).");
     }
 
     limpiarFormulario();
@@ -265,6 +361,22 @@ document.addEventListener("DOMContentLoaded", () => {
     btnConfirmarEliminar.addEventListener("click", async () => {
       if (!idParaEliminar) return;
 
+      // 1. Guardar ID en lista de eliminadas de localStorage
+      try {
+        let deletedIds = JSON.parse(localStorage.getItem(DELETED_STORAGE_KEY) || "[]");
+        if (!deletedIds.includes(idParaEliminar)) {
+          deletedIds.push(idParaEliminar);
+          localStorage.setItem(DELETED_STORAGE_KEY, JSON.stringify(deletedIds));
+        }
+
+        // Remover de actividades personalizadas si estaba allí
+        let localGuardadas = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || "[]");
+        localGuardadas = localGuardadas.filter(a => a.id !== idParaEliminar);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localGuardadas));
+      } catch (err) {
+        console.warn("Error eliminando en localStorage:", err);
+      }
+
       const headers = window.Auth ? window.Auth.getHeaders() : { "Content-Type": "application/json" };
       try {
         await fetch(getApiUrl(`/api/actividades/${idParaEliminar}`), {
@@ -272,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
           headers
         });
       } catch (err) {
-        console.warn("Fallback de eliminación:", err);
+        console.info("[Admin] Eliminación local realizada (servidor backend offline).");
       }
 
       modalEliminar.classList.remove("activo");

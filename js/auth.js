@@ -1,128 +1,142 @@
 /**
- * RUTA DORADA QUIROGA — Módulo de Autenticación y Protección de Rutas
- * Manejo seguro de sesiones, verificación de tokens criptográficos y guardia de rutas.
+ * RUTA DORADA QUIROGA — Módulo de Autenticación y Control de Acceso Privado
+ * Sistema de acceso protegido mediante clave numérica de 6 dígitos.
  */
 
-const AUTH_STORAGE_KEY = "ruta_dorada_token";
-const USER_STORAGE_KEY = "ruta_dorada_usuario";
+// =========================================================================
+// CLAVE DE ACCESO DEL ADMINISTRADOR (EXACTAMENTE 6 DÍGITOS NUMÉRICOS)
+// Modifica este valor directamente aquí cuando desees cambiar la clave:
+// =========================================================================
+const ADMIN_PASSWORD = "202612";
+
+const AUTH_STORAGE_KEY = "ruta_dorada_admin_token";
+const AUTH_TIME_KEY = "ruta_dorada_admin_login_time";
+
 const Auth = {
+  // Exponer la clave para referencia directa
+  ADMIN_PASSWORD: ADMIN_PASSWORD,
+
+  /**
+   * Valida que la clave contenga exactamente 6 dígitos numéricos
+   */
+  validarFormatoPin(pin) {
+    if (typeof pin !== "string" && typeof pin !== "number") return false;
+    const str = String(pin).trim();
+    return /^\d{6}$/.test(str);
+  },
+
+  /**
+   * Intenta autenticar al usuario con la clave de 6 números
+   */
+  async login(pin) {
+    const pinStr = String(pin || "").trim();
+
+    // 1. Validar que tenga exactamente 6 dígitos
+    if (!this.validarFormatoPin(pinStr)) {
+      return {
+        success: false,
+        error: "La clave debe tener exactamente 6 dígitos numéricos."
+      };
+    }
+
+    // 2. Validar que coincida con la clave maestra definida en el código
+    if (pinStr !== this.ADMIN_PASSWORD) {
+      return {
+        success: false,
+        error: "Clave de administración incorrecta. Acceso no válido."
+      };
+    }
+
+    // 3. Generar token de sesión y registrar hora de acceso
+    const token = "auth_pin_" + btoa(`${pinStr}_${Date.now()}`);
+    sessionStorage.setItem(AUTH_STORAGE_KEY, token);
+    sessionStorage.setItem(AUTH_TIME_KEY, Date.now().toString());
+
+    // 4. Si el backend está disponible, autenticar también contra el servidor
+    try {
+      await fetch(`${this.getApiBaseUrl()}/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: pinStr })
+      });
+    } catch {
+      // Backend offline: la sesión local es suficiente para entornos estáticos
+    }
+
+    return {
+      success: true,
+      token
+    };
+  },
+
+  /**
+   * Comprueba si existe una sesión válida y activa
+   */
+  estaAutenticado() {
+    const token = sessionStorage.getItem(AUTH_STORAGE_KEY);
+    if (!token) return false;
+
+    // Verificar que el token comience con el prefijo válido
+    if (!token.startsWith("auth_pin_")) return false;
+
+    // Control de expiración de sesión (24 horas)
+    const loginTime = parseInt(sessionStorage.getItem(AUTH_TIME_KEY) || "0", 10);
+    const ahora = Date.now();
+    const duracion24Horas = 24 * 60 * 60 * 1000;
+    if (ahora - loginTime > duracion24Horas) {
+      this.cerrarSesion();
+      return false;
+    }
+
+    return true;
+  },
+
+  /**
+   * Guardia de Rutas: Bloquea inmediatamente el panel si no hay sesión autorizada
+   * Redirige forzosamente a login.html
+   */
+  protegerRutaAdmin() {
+    if (!this.estaAutenticado()) {
+      window.location.replace("login.html");
+      return false;
+    }
+    return true;
+  },
+
+  /**
+   * Cierra la sesión activa y redirige al formulario de acceso
+   */
+  cerrarSesion() {
+    sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    sessionStorage.removeItem(AUTH_TIME_KEY);
+    window.location.replace("login.html");
+  },
+
+  /**
+   * Encabezados HTTP con autorización para llamadas a la API
+   */
+  getHeaders() {
+    const token = sessionStorage.getItem(AUTH_STORAGE_KEY) || "";
+    return {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+      "X-Admin-Pin": this.ADMIN_PASSWORD
+    };
+  },
+
+  /**
+   * URL base del backend
+   */
   getApiBaseUrl() {
     if (window.location.protocol === "http:" || window.location.protocol === "https:") {
       return "";
     }
     return "http://localhost:8080";
-  },
-
-  /**
-   * Intenta iniciar sesión contra la API del backend
-   */
-  async login(username, password) {
-    try {
-      const resp = await fetch(`${this.getApiBaseUrl()}/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await resp.json();
-
-      if (resp.ok && data.success && data.token) {
-        sessionStorage.setItem(AUTH_STORAGE_KEY, data.token);
-        sessionStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data.user || { username }));
-        return { success: true, user: data.user };
-      }
-
-      return {
-        success: false,
-        error: data.error || "Usuario o contraseña incorrectos."
-      };
-    } catch (err) {
-      console.error("Error de conexión durante login:", err);
-      return {
-        success: false,
-        error: "No fue posible conectar con el servidor de autenticación."
-      };
-    }
-  },
-
-  /**
-   * Obtiene el token de sesión almacenado
-   */
-  getToken() {
-    return sessionStorage.getItem(AUTH_STORAGE_KEY);
-  },
-
-  /**
-   * Obtiene el usuario en sesión
-   */
-  getUsuario() {
-    try {
-      return JSON.parse(sessionStorage.getItem(USER_STORAGE_KEY) || "{}");
-    } catch {
-      return null;
-    }
-  },
-
-  /**
-   * Verifica activamente con el servidor si la sesión es válida
-   */
-  async verificarSesion() {
-    const token = this.getToken();
-    if (!token) return false;
-
-    try {
-      const resp = await fetch(`${this.getApiBaseUrl()}/api/auth/verify`, {
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
-      });
-      const data = await resp.json();
-      return resp.ok && data.valid;
-    } catch (err) {
-      console.warn("No se pudo verificar la sesión con el servidor:", err);
-      return false;
-    }
-  },
-
-  /**
-   * Guardia de Rutas: Protege el panel administrativo
-   * Si no hay sesión válida, bloquea la vista y redirige inmediatamente al login
-   */
-  async protegerRutaAdmin() {
-    const token = this.getToken();
-    if (!token) {
-      window.location.replace("/login.html");
-      return;
-    }
-
-    const esValida = await this.verificarSesion();
-    if (!esValida) {
-      this.cerrarSesion();
-    }
-  },
-
-  /**
-   * Cierra la sesión activa y redirige al login
-   */
-  cerrarSesion() {
-    sessionStorage.removeItem(AUTH_STORAGE_KEY);
-    sessionStorage.removeItem(USER_STORAGE_KEY);
-    window.location.replace("/login.html");
-  },
-
-  /**
-   * Retorna encabezados HTTP con autorización para llamadas API
-   */
-  getHeaders() {
-    const token = this.getToken();
-    return {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token || ""}`
-    };
   }
 };
 
 // Exponer globalmente
 if (typeof window !== "undefined") {
   window.Auth = Auth;
+  window.ADMIN_PASSWORD = ADMIN_PASSWORD;
 }

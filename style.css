@@ -234,6 +234,40 @@ header.encabezado-principal {
   transform: translateY(-2px);
 }
 
+.btn-header-admin {
+  background: var(--color-verde-suave);
+  color: var(--color-verde-principal) !important;
+  border: 1.5px solid var(--color-verde-borde);
+  padding: 8px 14px !important;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.95rem !important;
+  transition: var(--transicion);
+}
+
+.btn-header-admin:hover {
+  background: var(--color-verde-principal) !important;
+  color: #ffffff !important;
+  border-color: var(--color-verde-principal);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-suave);
+}
+
+.btn-menu-movil-admin {
+  background: #173822 !important;
+  color: #ffd978 !important;
+  border-color: var(--color-dorado-acento) !important;
+  font-weight: 800 !important;
+}
+
+.btn-menu-movil-admin:hover {
+  background: #235432 !important;
+  color: #ffffff !important;
+}
+
 /* Botón Menú Hamburguesa (Móvil) */
 .btn-menu-movil {
   display: none;
@@ -1694,6 +1728,21 @@ footer.pie-pagina {
 /* ==========================================================================
    MEDIA QUERIES — RESPONSIVE DESIGN COMPLETO (320px a 1366px+)
    ========================================================================== */
+
+/* AJUSTE PARA PANTALLAS MEDIANAS-GRANDES (1025px a 1220px) */
+@media (min-width: 1025px) and (max-width: 1220px) {
+  .menu-escritorio {
+    gap: 10px;
+  }
+  .menu-escritorio a {
+    padding: 6px 8px;
+    font-size: 0.9rem;
+  }
+  .btn-header-destacado, .btn-header-admin {
+    padding: 6px 12px !important;
+    font-size: 0.88rem !important;
+  }
+}
 
 /* TABLETS Y PANTALLAS MEDIANAS (hasta 1024px) */
 @media (max-width: 1024px) {

@@ -7,10 +7,25 @@
   <title>Dashboard de Administración | Ruta Dorada Quiroga</title>
   <link rel="stylesheet" href="style.css">
   
-  <!-- GUARDIA DE RUTA: Bloquea inmediatamente la pantalla si no hay sesión válida -->
+  <style id="estilo-bloqueo-admin">
+    /* Ocultar interfaz inmediatamente hasta validar autorización por PIN */
+    body {
+      display: none !important;
+    }
+  </style>
+
+  <!-- GUARDIA DE RUTA: Bloquea inmediatamente el acceso si no hay sesión válida con el PIN de 6 dígitos -->
   <script src="js/auth.js"></script>
   <script>
-    window.Auth.protegerRutaAdmin();
+    if (!window.Auth || !window.Auth.estaAutenticado()) {
+      window.location.replace("login.html");
+    } else {
+      document.addEventListener("DOMContentLoaded", () => {
+        const estilo = document.getElementById("estilo-bloqueo-admin");
+        if (estilo) estilo.remove();
+        document.body.style.display = "block";
+      });
+    }
   </script>
 
   <style>
@@ -451,9 +466,12 @@
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <button id="btn-cerrar-sesion" class="btn-cerrar-sesion">
-          <span>🚪</span> Cerrar sesión
+      <div class="sidebar-footer" style="display: flex; flex-direction: column; gap: 8px;">
+        <a href="index.html" class="sidebar-link" style="background: rgba(255, 255, 255, 0.15); color: #ffffff; justify-content: center; text-align: center; border-radius: 8px; padding: 10px; text-decoration: none;">
+          <span>🏠</span> Ir al sitio público
+        </a>
+        <button id="btn-cerrar-sesion" class="btn-cerrar-sesion" style="font-size: 0.9rem; padding: 10px; background: rgba(220, 53, 69, 0.85); justify-content: center;">
+          <span>🔒</span> Cerrar sesión
         </button>
       </div>
     </aside>
@@ -461,12 +479,15 @@
     <!-- CONTENIDO PRINCIPAL -->
     <main class="admin-main">
       <!-- TOPBAR -->
-      <div class="admin-topbar">
+      <div id="resumen" class="admin-topbar">
         <div class="admin-topbar-saludo">
           <h1>Panel de administración</h1>
-          <p>Bienvenido, administrador. Gestiona las actividades y contenidos de Ruta Dorada Quiroga.</p>
+          <p>Acceso privado verificado con clave de 6 dígitos. Gestiona las actividades comunitarias de Ruta Dorada Quiroga.</p>
         </div>
-        <div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button id="btn-exportar-json" class="btn-admin btn-admin-secundario" style="padding: 10px 16px; font-size: 0.9rem;" title="Descargar archivo data/actividades.json para sincronizar">
+            <span>📥</span> Exportar JSON
+          </button>
           <button id="btn-scroll-nueva" class="btn-admin btn-admin-primario" style="padding: 10px 18px; font-size: 0.95rem;">
             <span>➕</span> Crear Actividad
           </button>

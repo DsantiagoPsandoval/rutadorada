@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acceso Administrativo | Ruta Dorada Quiroga</title>
+  <title>Acceso Privado Administrador | Ruta Dorada Quiroga</title>
   <link rel="stylesheet" href="style.css">
   <style>
     .login-pagina {
@@ -19,7 +19,7 @@
     .login-tarjeta {
       background: #ffffff;
       border-radius: var(--radio-borde);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 12px 45px rgba(0, 0, 0, 0.3);
       width: 100%;
       max-width: 440px;
       padding: 40px 32px;
@@ -28,20 +28,20 @@
 
     .login-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .login-icono {
-      width: 60px;
-      height: 60px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       background: var(--color-verde-suave);
       color: var(--color-verde-principal);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
-      margin-bottom: 15px;
+      font-size: 2rem;
+      margin-bottom: 14px;
     }
 
     .login-titulo {
@@ -52,7 +52,7 @@
     }
 
     .login-subtitulo {
-      font-size: 1rem;
+      font-size: 0.98rem;
       color: var(--color-texto-secundario);
       line-height: 1.45;
     }
@@ -70,38 +70,87 @@
       text-align: left;
     }
 
+    .campo-grupo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .campo-grupo label {
       font-weight: 700;
       font-size: 1rem;
       color: var(--color-texto-principal);
     }
 
-    .campo-input {
-      padding: 14px 16px;
-      border: 2px solid var(--color-borde-suave);
-      border-radius: 8px;
-      font-size: 1.05rem;
-      font-family: inherit;
-      width: 100%;
-      transition: var(--transicion);
+    .btn-toggle-pin {
+      background: none;
+      border: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      color: var(--color-verde-principal);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 4px;
     }
 
-    .campo-input:focus {
+    .btn-toggle-pin:hover {
+      color: var(--color-dorado-oscuro);
+      background: var(--color-verde-suave);
+    }
+
+    .campo-pin-contenedor {
+      position: relative;
+    }
+
+    .campo-pin-input {
+      padding: 16px;
+      border: 2.5px solid var(--color-borde-suave);
+      border-radius: 10px;
+      font-size: 1.9rem;
+      font-family: inherit;
+      font-weight: 800;
+      width: 100%;
+      text-align: center;
+      letter-spacing: 14px;
+      color: var(--color-verde-principal);
+      transition: var(--transicion);
+      background: #fdfdfd;
+    }
+
+    .campo-pin-input:focus {
       outline: none;
       border-color: var(--color-verde-principal);
-      box-shadow: 0 0 0 3px rgba(35, 84, 50, 0.15);
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(35, 84, 50, 0.15);
+    }
+
+    .campo-pin-input::placeholder {
+      letter-spacing: 10px;
+      color: #b0bec5;
+      font-weight: 600;
+    }
+
+    .pin-ayuda-texto {
+      font-size: 0.85rem;
+      color: var(--color-texto-secundario);
+      text-align: center;
+      margin-top: 4px;
     }
 
     .alerta-error {
       display: none;
       background: #fdf2f2;
-      border: 1px solid #f8b4b4;
+      border: 1.5px solid #f8b4b4;
       color: #9b1c1c;
       padding: 12px 16px;
       border-radius: 8px;
       font-size: 0.95rem;
-      font-weight: 600;
+      font-weight: 700;
       text-align: center;
+      line-height: 1.4;
     }
 
     .btn-login {
@@ -118,20 +167,24 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      min-height: 52px;
+      min-height: 54px;
       transition: var(--transicion);
-      margin-top: 10px;
+      margin-top: 6px;
+      box-shadow: var(--sombra-suave);
     }
 
     .btn-login:hover {
       background: var(--color-verde-hover);
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(23, 56, 34, 0.25);
     }
 
     .login-footer-link {
       text-align: center;
       margin-top: 25px;
       font-size: 0.95rem;
+      padding-top: 15px;
+      border-top: 1px solid var(--color-borde-suave);
     }
 
     .login-footer-link a {
@@ -139,48 +192,67 @@
       font-weight: 700;
       text-decoration: underline;
     }
+
+    .login-footer-link a:hover {
+      color: var(--color-dorado-oscuro);
+    }
+
+    @media (max-width: 480px) {
+      .login-tarjeta {
+        padding: 30px 20px;
+      }
+      .campo-pin-input {
+        font-size: 1.5rem;
+        letter-spacing: 10px;
+        padding: 14px;
+      }
+    }
   </style>
 </head>
 
 <body class="login-pagina">
   <div class="login-tarjeta">
     <div class="login-header">
-      <div class="login-icono" aria-hidden="true">🔐</div>
-      <h1 class="login-titulo">Administración</h1>
-      <p class="login-subtitulo">Gestiona las actividades de Ruta Dorada Quiroga.</p>
+      <div class="login-icono" aria-hidden="true">🔒</div>
+      <h1 class="login-titulo">Acceso Privado</h1>
+      <p class="login-subtitulo">Ingresa la clave de administración de 6 dígitos para ingresar al panel.</p>
     </div>
 
     <div id="alerta-error" class="alerta-error" role="alert">
-      Usuario o contraseña incorrectos.
+      Clave no válida. Acceso denegado.
     </div>
 
     <form id="form-login" class="login-formulario">
       <div class="campo-grupo">
-        <label for="input-usuario">Usuario</label>
-        <input 
-          type="text" 
-          id="input-usuario" 
-          class="campo-input" 
-          placeholder="admin@rutadorada.org"
-          required 
-          autocomplete="username"
-        >
-      </div>
+        <div class="campo-grupo-header">
+          <label for="input-pin">Clave numérica (6 dígitos)</label>
+          <button type="button" id="btn-toggle-pin" class="btn-toggle-pin" aria-label="Mostrar u ocultar dígitos">
+            👁️ Mostrar
+          </button>
+        </div>
 
-      <div class="campo-grupo">
-        <label for="input-password">Contraseña</label>
-        <input 
-          type="password" 
-          id="input-password" 
-          class="campo-input" 
-          placeholder="••••••••••••"
-          required 
-          autocomplete="current-password"
-        >
+        <div class="campo-pin-contenedor">
+          <input 
+            type="password" 
+            id="input-pin" 
+            class="campo-pin-input" 
+            placeholder="••••••"
+            maxlength="6"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            required 
+            autocomplete="off"
+            autofocus
+            aria-describedby="pin-ayuda"
+          >
+        </div>
+        <p id="pin-ayuda" class="pin-ayuda-texto">
+          Debes introducir exactamente 6 números.
+        </p>
       </div>
 
       <button type="submit" id="btn-submit" class="btn-login">
-        <span>Iniciar sesión</span>
+        <span>🔒 Ingresar al panel</span>
       </button>
     </form>
 
@@ -191,38 +263,70 @@
 
   <script src="js/auth.js"></script>
   <script>
-    // Si ya existe sesión activa, redirigir directo al admin
-    (async () => {
-      const valida = await window.Auth.verificarSesion();
-      if (valida) {
-        window.location.replace("/admin.html");
-      }
-    })();
+    // Si ya existe sesión activa previamente verificada, redirigir directo al admin
+    if (window.Auth && window.Auth.estaAutenticado()) {
+      window.location.replace("admin.html");
+    }
 
     const form = document.getElementById("form-login");
-    const inputUser = document.getElementById("input-usuario");
-    const inputPass = document.getElementById("input-password");
+    const inputPin = document.getElementById("input-pin");
     const alertaError = document.getElementById("alerta-error");
     const btnSubmit = document.getElementById("btn-submit");
+    const btnToggle = document.getElementById("btn-toggle-pin");
 
+    // Toggle para mostrar u ocultar los números ingresados
+    if (btnToggle) {
+      btnToggle.addEventListener("click", () => {
+        if (inputPin.type === "password") {
+          inputPin.type = "text";
+          btnToggle.innerHTML = "🙈 Ocultar";
+        } else {
+          inputPin.type = "password";
+          btnToggle.innerHTML = "👁️ Mostrar";
+        }
+        inputPin.focus();
+      });
+    }
+
+    // Filtrar automáticamente para permitir solo dígitos numéricos (0-9) y máximo 6 caracteres
+    inputPin.addEventListener("input", () => {
+      inputPin.value = inputPin.value.replace(/\D/g, "").slice(0, 6);
+      if (alertaError.style.display === "block") {
+        alertaError.style.display = "none";
+      }
+    });
+
+    // Procesar autenticación
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       alertaError.style.display = "none";
+
+      const pin = inputPin.value.trim();
+
+      // Validación estricta de formato: exactamente 6 dígitos numéricos
+      if (!/^\d{6}$/.test(pin)) {
+        alertaError.textContent = "La clave debe tener exactamente 6 dígitos numéricos.";
+        alertaError.style.display = "block";
+        inputPin.focus();
+        return;
+      }
+
       btnSubmit.disabled = true;
-      btnSubmit.textContent = "Verificando...";
+      btnSubmit.innerHTML = "<span>Verificando clave...</span>";
 
-      const usuario = inputUser.value.trim();
-      const pass = inputPass.value;
-
-      const resultado = await window.Auth.login(usuario, pass);
+      const resultado = await window.Auth.login(pin);
 
       if (resultado.success) {
-        window.location.replace("/admin.html");
+        // Clave correcta -> Acceso concedido
+        window.location.replace("admin.html");
       } else {
-        alertaError.textContent = resultado.error || "Usuario o contraseña incorrectos.";
+        // Clave incorrecta -> Mensaje de error y denegación de acceso
+        alertaError.textContent = resultado.error || "Clave no válida. Acceso denegado.";
         alertaError.style.display = "block";
         btnSubmit.disabled = false;
-        btnSubmit.innerHTML = "<span>Iniciar sesión</span>";
+        btnSubmit.innerHTML = "<span>🔒 Ingresar al panel</span>";
+        inputPin.value = "";
+        inputPin.focus();
       }
     });
   </script>

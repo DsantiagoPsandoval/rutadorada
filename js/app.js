@@ -100,33 +100,78 @@ function obtenerApiBaseUrl() {
 }
 
 /**
- * Carga actividades personalizadas agregadas por el administrador desde el backend
+ * Carga actividades personalizadas agregadas por el administrador desde el backend y localStorage
  */
 async function cargarActividadesServidor() {
-  if (window.location.protocol === "file:") {
-    console.info(
-      "[Ruta Dorada Quiroga] La aplicación se abrió directamente desde el sistema de archivos (file://). " +
-      "Para habilitar sincronización total con el backend, ejecute 'npm start' y acceda a http://localhost:8080."
-    );
+  let customActs = [];
+  let deletedIds = new Set();
+
+  // 1. Cargar IDs eliminados desde localStorage
+  try {
+    const delData = localStorage.getItem("ruta_dorada_deleted_actividades");
+    if (delData) {
+      deletedIds = new Set(JSON.parse(delData));
+    }
+  } catch (e) {
+    console.warn("Error leyendo eliminadas:", e);
   }
 
+  // 2. Cargar actividades creadas en el panel de admin desde localStorage (soporte GitHub Pages)
+  try {
+    const localData = localStorage.getItem("ruta_dorada_custom_actividades");
+    if (localData) {
+      customActs = JSON.parse(localData);
+    }
+  } catch (e) {
+    console.warn("Error leyendo localStorage:", e);
+  }
+
+  // 3. Consultar backend si está disponible; si no, cargar data/actividades.json
+  let cargadasDelServidor = false;
   try {
     const apiUrl = `${obtenerApiBaseUrl()}/api/actividades`;
     const resp = await fetch(apiUrl);
     if (resp.ok) {
-      const customActs = await resp.json();
-      if (Array.isArray(customActs) && customActs.length > 0) {
-        const idsCustom = new Set(customActs.map(a => a.id));
-        const base = (window.TODAS_LAS_ACTIVIDADES || []).filter(a => !idsCustom.has(a.id));
-        window.TODAS_LAS_ACTIVIDADES = [...customActs, ...base].sort((a, b) => {
-          if (a.fecha !== b.fecha) return (a.fecha || "").localeCompare(b.fecha || "");
-          return (a.horaInicio || "").localeCompare(b.horaInicio || "");
-        });
+      const serverActs = await resp.json();
+      if (Array.isArray(serverActs) && serverActs.length > 0) {
+        const map = new Map();
+        serverActs.forEach(a => map.set(a.id, a));
+        customActs.forEach(a => { if (!map.has(a.id)) map.set(a.id, a); });
+        customActs = Array.from(map.values());
+        cargadasDelServidor = true;
       }
     }
   } catch (err) {
-    console.info("[Ruta Dorada Quiroga] Catálogo de actividades operando con datos locales de contingencia.");
+    // Servidor backend offline
   }
+
+  // Cargar data/actividades.json para que todos los usuarios en GitHub Pages vean los cambios
+  if (!cargadasDelServidor) {
+    try {
+      const respStatic = await fetch("data/actividades.json");
+      if (respStatic.ok) {
+        const staticActs = await respStatic.json();
+        if (Array.isArray(staticActs) && staticActs.length > 0) {
+          const map = new Map();
+          staticActs.forEach(a => map.set(a.id, a));
+          customActs.forEach(a => { if (!map.has(a.id)) map.set(a.id, a); });
+          customActs = Array.from(map.values());
+        }
+      }
+    } catch (e) {
+      // Archivo estático no disponible
+    }
+  }
+
+  // 4. Filtrar y fusionar con catálogo base
+  const idsCustom = new Set(customActs.map(a => a.id));
+  const base = (window.TODAS_LAS_ACTIVIDADES || []).filter(a => !idsCustom.has(a.id) && !deletedIds.has(a.id));
+  const activasCustom = customActs.filter(a => !deletedIds.has(a.id));
+
+  window.TODAS_LAS_ACTIVIDADES = [...activasCustom, ...base].sort((a, b) => {
+    if (a.fecha !== b.fecha) return (a.fecha || "").localeCompare(b.fecha || "");
+    return (a.horaInicio || "").localeCompare(b.horaInicio || "");
+  });
 }
 
 /**

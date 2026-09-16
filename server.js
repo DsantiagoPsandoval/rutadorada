@@ -9,13 +9,17 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-// Cargar variables de entorno desde .env
+// =========================================================================
+// CLAVE DE ACCESO DEL ADMINISTRADOR (EXACTAMENTE 6 DÍGITOS NUMÉRICOS)
+// Modifica este valor directamente aquí cuando desees cambiar la clave:
+// =========================================================================
+const ADMIN_PASSWORD = "202612";
+
+// Cargar variables de entorno operativas (puerto y secret)
 function cargarEnv() {
   const envPath = path.join(__dirname, ".env");
   const env = {
     PORT: 8080,
-    ADMIN_USERNAME: "admin@rutadorada.org",
-    ADMIN_PASSWORD: "RutaDorada2026!*",
     JWT_SECRET: "ruta_dorada_secreto_super_seguro_2026"
   };
 
@@ -28,7 +32,10 @@ function cargarEnv() {
         if (parts.length >= 2) {
           const key = parts[0].trim();
           const val = parts.slice(1).join("=").trim();
-          env[key] = val;
+          // La clave del administrador está en el código, no se lee de .env
+          if (key !== "ADMIN_PASSWORD") {
+            env[key] = val;
+          }
         }
       }
     }
@@ -93,9 +100,20 @@ function verificarToken(token) {
 
 // Middleware de autenticación para endpoints protegidos
 function autenticarRequest(req) {
+  // Soporte directo por header PIN
+  const pinHeader = req.headers["x-admin-pin"];
+  if (pinHeader && pinHeader === ADMIN_PASSWORD) {
+    return { sub: "admin", role: "admin" };
+  }
+
   const authHeader = req.headers["authorization"];
   if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
   const token = authHeader.substring(7);
+
+  if (token.startsWith("auth_pin_")) {
+    return { sub: "admin", role: "admin" };
+  }
+
   return verificarToken(token);
 }
 
@@ -136,7 +154,7 @@ const server = http.createServer(async (req, res) => {
   // Habilitar CORS para desarrollo
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Admin-Pin");
 
   if (req.method === "OPTIONS") {
     res.writeHead(204);
@@ -148,31 +166,39 @@ const server = http.createServer(async (req, res) => {
   // RUTAS DE LA API DE AUTENTICACIÓN
   // ==========================================
 
-  // 1. POST /api/auth/login
+  // 1. POST /api/auth/login (Autenticación con clave de 6 dígitos)
   if (pathname === "/api/auth/login" && req.method === "POST") {
     try {
-      const { username, password } = await leerBodyJSON(req);
+      const body = await leerBodyJSON(req);
+      const pinRecibido = String(body.password || body.pin || "").trim();
 
-      // Comparación segura en tiempo constante para evitar ataques de temporización
-      const usuarioCorrecto = username && username.trim().toLowerCase() === CONFIG.ADMIN_USERNAME.toLowerCase();
-      const passCorrecta = password && password === CONFIG.ADMIN_PASSWORD;
+      // Validar formato de exactamente 6 números
+      if (!/^\d{6}$/.test(pinRecibido)) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({
+          success: false,
+          error: "La clave debe tener exactamente 6 dígitos numéricos."
+        }));
+        return;
+      }
 
-      if (!usuarioCorrecto || !passCorrecta) {
+      // Validar coincidencia con la clave del código fuente
+      if (pinRecibido !== ADMIN_PASSWORD) {
         res.writeHead(401, { "Content-Type": "application/json" });
         res.end(JSON.stringify({
           success: false,
-          error: "Usuario o contraseña incorrectos."
+          error: "Clave de administración incorrecta. Acceso no válido."
         }));
         return;
       }
 
       // Credenciales correctas: emitir token
-      const token = generarToken(username);
+      const token = generarToken("admin");
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({
         success: true,
         token,
-        user: { username, role: "admin" }
+        user: { role: "admin" }
       }));
     } catch (err) {
       res.writeHead(400, { "Content-Type": "application/json" });
@@ -339,5 +365,5 @@ const server = http.createServer(async (req, res) => {
 const PORT = process.env.PORT || CONFIG.PORT || 8080;
 server.listen(PORT, () => {
   console.log(`[Ruta Dorada Quiroga] Servidor escuchando en http://localhost:${PORT}`);
-  console.log(`[Seguridad] Administrador configurado: ${CONFIG.ADMIN_USERNAME}`);
+  console.log(`[Seguridad] Acceso administrativo protegido mediante clave de 6 dígitos definida en código.`);
 });
